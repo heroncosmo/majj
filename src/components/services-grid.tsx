@@ -2,40 +2,47 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Home, Shirt, Building2, Sparkles, Clock, Users } from "lucide-react";
+import cleaningService from "@/assets/cleaning-service.jpg";
+import ironingService from "@/assets/ironing-service.jpg";
+import commercialService from "@/assets/commercial-service.jpg";
 
 export const ServicesGrid = () => {
   const services = [
     {
       icon: Home,
-      title: "Residential Cleaning",
-      description: "Complete house cleaning with attention to every detail. Professional and reliable service for your home.",
-      features: ["Deep cleaning", "Regular maintenance", "Eco-friendly products"],
-      price: "From $80",
-      popular: false
+      title: "Nettoyage Résidentiel",
+      description: "Nettoyage complet de la maison avec attention à chaque détail. Service professionnel et fiable pour votre domicile.",
+      features: ["Nettoyage en profondeur", "Entretien régulier", "Produits écologiques"],
+      price: "À partir de 80€",
+      popular: false,
+      image: cleaningService
     },
     {
       icon: Shirt,
-      title: "Ironing Service",
-      description: "Professional ironing service that leaves your clothes crisp and wrinkle-free. Pickup and delivery available.",
-      features: ["Pickup & delivery", "Professional pressing", "Garment care"],
-      price: "From $25",
-      popular: true
+      title: "Service de Repassage",
+      description: "Service de repassage professionnel qui laisse vos vêtements impeccables et sans plis. Collecte et livraison disponibles.",
+      features: ["Collecte et livraison", "Repassage professionnel", "Soin des vêtements"],
+      price: "À partir de 25€",
+      popular: true,
+      image: ironingService
     },
     {
       icon: Building2,
-      title: "Commercial Cleaning",
-      description: "Comprehensive cleaning solutions for offices and businesses. Maintain a professional environment.",
-      features: ["Office cleaning", "Scheduled service", "Custom packages"],
-      price: "From $150",
-      popular: false
+      title: "Nettoyage Commercial",
+      description: "Solutions de nettoyage complètes pour bureaux et entreprises. Maintenez un environnement professionnel.",
+      features: ["Nettoyage de bureaux", "Service planifié", "Forfaits personnalisés"],
+      price: "À partir de 150€",
+      popular: false,
+      image: commercialService
     },
     {
       icon: Sparkles,
-      title: "Deep Cleaning",
-      description: "Intensive cleaning service for move-ins, move-outs, or seasonal deep cleaning needs.",
-      features: ["Move-in/out cleaning", "Seasonal service", "Detailed sanitization"],
-      price: "From $200",
-      popular: false
+      title: "Nettoyage Approfondi",
+      description: "Service de nettoyage intensif pour emménagement, déménagement ou nettoyage saisonnier approfondi.",
+      features: ["Nettoyage d'emménagement", "Service saisonnier", "Désinfection détaillée"],
+      price: "À partir de 200€",
+      popular: false,
+      image: cleaningService
     }
   ];
 
@@ -44,10 +51,10 @@ export const ServicesGrid = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-foreground mb-4">
-            Our Professional Services
+            Nos Services Professionnels
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Choose from our range of professional cleaning services, all performed by verified and experienced professionals
+            Choisissez parmi notre gamme de services de nettoyage professionnels, tous exécutés par des professionnels vérifiés et expérimentés
           </p>
         </div>
 
@@ -57,7 +64,7 @@ export const ServicesGrid = () => {
               <CardHeader className="text-center pb-4">
                 {service.popular && (
                   <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-secondary text-secondary-foreground">
-                    Most Popular
+                    Le Plus Populaire
                   </Badge>
                 )}
                 
@@ -87,7 +94,7 @@ export const ServicesGrid = () => {
                   className="w-full" 
                   variant={service.popular ? "default" : "outline"}
                 >
-                  Request Quote
+                  Demander un Devis
                 </Button>
               </CardContent>
             </Card>
@@ -101,8 +108,8 @@ export const ServicesGrid = () => {
               <Users className="w-8 h-8 text-primary mr-3" />
               <span className="text-4xl font-bold text-primary">500+</span>
             </div>
-            <h3 className="text-xl font-semibold mb-2">Verified Professionals</h3>
-            <p className="text-muted-foreground">Carefully selected and background-checked professionals</p>
+            <h3 className="text-xl font-semibold mb-2">Professionnels Vérifiés</h3>
+            <p className="text-muted-foreground">Professionnels soigneusement sélectionnés et vérifiés</p>
           </div>
           
           <div className="text-center">
@@ -110,8 +117,8 @@ export const ServicesGrid = () => {
               <Sparkles className="w-8 h-8 text-secondary mr-3" />
               <span className="text-4xl font-bold text-secondary">10k+</span>
             </div>
-            <h3 className="text-xl font-semibold mb-2">Services Completed</h3>
-            <p className="text-muted-foreground">Happy customers with quality service delivery</p>
+            <h3 className="text-xl font-semibold mb-2">Services Réalisés</h3>
+            <p className="text-muted-foreground">Clients satisfaits avec une prestation de service de qualité</p>
           </div>
           
           <div className="text-center">
@@ -119,8 +126,8 @@ export const ServicesGrid = () => {
               <Clock className="w-8 h-8 text-primary mr-3" />
               <span className="text-4xl font-bold text-primary">24h</span>
             </div>
-            <h3 className="text-xl font-semibold mb-2">Quick Response</h3>
-            <p className="text-muted-foreground">Fast booking and professional service scheduling</p>
+            <h3 className="text-xl font-semibold mb-2">Réponse Rapide</h3>
+            <p className="text-muted-foreground">Réservation rapide et planification de service professionnelle</p>
           </div>
         </div>
       </div>

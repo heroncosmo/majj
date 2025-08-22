@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Phone, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
+import majikLogo from "@/assets/majik-logo.png";
 
 export const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,11 +15,11 @@ export const Navigation = () => {
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
               <Phone className="w-4 h-4" />
-              <span>+1 (555) 123-4567</span>
+              <span>+33 1 23 45 67 89</span>
             </div>
             <div className="flex items-center space-x-2">
               <Clock className="w-4 h-4" />
-              <span>Mon - Fri: 8:00 - 18:00</span>
+              <span>Lun - Ven: 8h00 - 18h00</span>
             </div>
           </div>
           <div className="hidden md:flex space-x-3">
@@ -35,28 +36,26 @@ export const Navigation = () => {
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <Link to="/" className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-xl">M</span>
-              </div>
-              <div>
-                <h1 className="text-xl font-bold text-primary">Majik</h1>
-                <p className="text-xs text-muted-foreground">Professional Services</p>
-              </div>
+              <img 
+                src={majikLogo} 
+                alt="Majik - Services Professionnels" 
+                className="h-12 w-auto object-contain"
+              />
             </Link>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
               <Link to="/" className="text-foreground hover:text-primary transition-colors font-medium">
-                Home
+                Accueil
               </Link>
               <Link to="/services" className="text-foreground hover:text-primary transition-colors font-medium">
-                Our Services
+                Nos Services
               </Link>
               <Link to="/professionals" className="text-foreground hover:text-primary transition-colors font-medium">
-                For Professionals
+                Travailler avec Nous
               </Link>
               <Link to="/about" className="text-foreground hover:text-primary transition-colors font-medium">
-                About
+                À Propos
               </Link>
               <Link to="/contact" className="text-foreground hover:text-primary transition-colors font-medium">
                 Contact
@@ -66,10 +65,10 @@ export const Navigation = () => {
             {/* CTA Buttons */}
             <div className="hidden md:flex items-center space-x-3">
               <Link to="/quote">
-                <Button variant="outline">Get Quote</Button>
+                <Button variant="outline">Demander un Devis</Button>
               </Link>
               <Link to="/register">
-                <Button>Join as Professional</Button>
+                <Button>Devenir Professionnel</Button>
               </Link>
             </div>
 
@@ -87,26 +86,26 @@ export const Navigation = () => {
             <div className="md:hidden py-4 border-t">
               <div className="flex flex-col space-y-3">
                 <Link to="/" className="text-foreground hover:text-primary transition-colors font-medium py-2">
-                  Home
+                  Accueil
                 </Link>
                 <Link to="/services" className="text-foreground hover:text-primary transition-colors font-medium py-2">
-                  Our Services
+                  Nos Services
                 </Link>
                 <Link to="/professionals" className="text-foreground hover:text-primary transition-colors font-medium py-2">
-                  For Professionals
+                  Travailler avec Nous
                 </Link>
                 <Link to="/about" className="text-foreground hover:text-primary transition-colors font-medium py-2">
-                  About
+                  À Propos
                 </Link>
                 <Link to="/contact" className="text-foreground hover:text-primary transition-colors font-medium py-2">
                   Contact
                 </Link>
                 <div className="flex flex-col space-y-2 pt-4">
                   <Link to="/quote">
-                    <Button variant="outline" className="w-full">Get Quote</Button>
+                    <Button variant="outline" className="w-full">Demander un Devis</Button>
                   </Link>
                   <Link to="/register">
-                    <Button className="w-full">Join as Professional</Button>
+                    <Button className="w-full">Devenir Professionnel</Button>
                   </Link>
                 </div>
               </div>

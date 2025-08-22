@@ -6,18 +6,18 @@ export const HowItWorks = () => {
   const steps = [
     {
       icon: ClipboardList,
-      title: "Choose Your Services",
-      description: "Fill out the forms for each service and we'll choose the best plan for your needs. It's simple and fast."
+      title: "Choisissez Vos Services",
+      description: "Remplissez les formulaires pour chaque service et nous choisirons le meilleur plan pour vos besoins. C'est simple et rapide."
     },
     {
       icon: CheckSquare,
-      title: "Review Your Contract",
-      description: "You can check and verify that the chosen plans are in accordance with what you need at the moment."
+      title: "Vérifiez Votre Contrat",
+      description: "Vous pouvez vérifier et confirmer que les plans choisis correspondent à ce dont vous avez besoin en ce moment."
     },
     {
       icon: CreditCard,
-      title: "Provide Address & Payment",
-      description: "Enter your service location and complete the secure payment to confirm your booking."
+      title: "Fournissez l'Adresse et le Paiement",
+      description: "Entrez le lieu de service et complétez le paiement sécurisé pour confirmer votre réservation."
     }
   ];
 
@@ -26,10 +26,10 @@ export const HowItWorks = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-foreground mb-4">
-            Hire in Just 3 Steps
+            Embauchez en Seulement 3 Étapes
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Our streamlined process makes it easy to get the professional services you need
+            Notre processus simplifié facilite l'obtention des services professionnels dont vous avez besoin
           </p>
         </div>
 
@@ -61,7 +61,7 @@ export const HowItWorks = () => {
 
         <div className="text-center">
           <Button size="lg" className="text-lg px-8 py-4">
-            Get Started Now
+            Commencer Maintenant
           </Button>
         </div>
       </div>

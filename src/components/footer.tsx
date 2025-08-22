@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Phone, Mail, MapPin, Facebook, Instagram, MessageSquare } from "lucide-react";
 import { Link } from "react-router-dom";
+import majikLogoTemp from "@/assets/majik-logo-temp.png";
 
 export const Footer = () => {
   return (
@@ -13,17 +14,15 @@ export const Footer = () => {
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-primary-foreground rounded-lg flex items-center justify-center">
-                <span className="text-primary font-bold">M</span>
-              </div>
-              <div>
-                <h3 className="text-xl font-bold">Majik</h3>
-                <p className="text-xs opacity-80">Professional Services</p>
-              </div>
+              <img 
+                src={majikLogoTemp} 
+                alt="Majik" 
+                className="h-8 w-auto object-contain"
+              />
             </div>
             <p className="text-primary-foreground/80 leading-relaxed">
-              Quality, reliable cleaning services with specially selected and competent professionals. 
-              Your trusted partner for all cleaning needs.
+              Services de nettoyage de qualité et fiables avec des professionnels spécialement sélectionnés et compétents. 
+              Votre partenaire de confiance pour tous vos besoins de nettoyage.
             </p>
             <div className="flex space-x-3">
               <Button variant="outline" size="sm" className="text-primary">
@@ -40,31 +39,31 @@ export const Footer = () => {
 
           {/* Quick Links */}
           <div className="space-y-4">
-            <h4 className="text-lg font-semibold">Quick Links</h4>
+            <h4 className="text-lg font-semibold">Liens Rapides</h4>
             <ul className="space-y-2">
               <li>
                 <Link to="/" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
-                  Home
+                  Accueil
                 </Link>
               </li>
               <li>
                 <Link to="/services" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
-                  Our Services
+                  Nos Services
                 </Link>
               </li>
               <li>
                 <Link to="/quote" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
-                  Get Quote
+                  Demander un Devis
                 </Link>
               </li>
               <li>
                 <Link to="/register" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
-                  Join as Professional
+                  Devenir Professionnel
                 </Link>
               </li>
               <li>
                 <Link to="/about" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
-                  About Us
+                  À Propos
                 </Link>
               </li>
               <li>
@@ -77,45 +76,45 @@ export const Footer = () => {
 
           {/* Services */}
           <div className="space-y-4">
-            <h4 className="text-lg font-semibold">Our Services</h4>
+            <h4 className="text-lg font-semibold">Nos Services</h4>
             <ul className="space-y-2">
-              <li className="text-primary-foreground/80">Residential Cleaning</li>
-              <li className="text-primary-foreground/80">Commercial Cleaning</li>
-              <li className="text-primary-foreground/80">Deep Cleaning</li>
-              <li className="text-primary-foreground/80">Ironing Service</li>
-              <li className="text-primary-foreground/80">Move-in/Move-out</li>
-              <li className="text-primary-foreground/80">Post-Construction</li>
+              <li className="text-primary-foreground/80">Nettoyage Résidentiel</li>
+              <li className="text-primary-foreground/80">Nettoyage Commercial</li>
+              <li className="text-primary-foreground/80">Nettoyage Approfondi</li>
+              <li className="text-primary-foreground/80">Service de Repassage</li>
+              <li className="text-primary-foreground/80">Emménagement/Déménagement</li>
+              <li className="text-primary-foreground/80">Après Construction</li>
             </ul>
           </div>
 
           {/* Contact Info */}
           <div className="space-y-4">
-            <h4 className="text-lg font-semibold">Contact Us</h4>
+            <h4 className="text-lg font-semibold">Contactez-Nous</h4>
             <div className="space-y-3">
               <div className="flex items-center space-x-2">
                 <Phone className="w-4 h-4" />
-                <span className="text-primary-foreground/80">+1 (555) 123-4567</span>
+                <span className="text-primary-foreground/80">+33 1 23 45 67 89</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Mail className="w-4 h-4" />
-                <span className="text-primary-foreground/80">info@majikservices.com</span>
+                <span className="text-primary-foreground/80">info@majikservices.fr</span>
               </div>
               <div className="flex items-center space-x-2">
                 <MapPin className="w-4 h-4" />
-                <span className="text-primary-foreground/80">123 Professional Ave<br />Business District, State 12345</span>
+                <span className="text-primary-foreground/80">123 Avenue Professionnelle<br />75001 Paris, France</span>
               </div>
             </div>
 
             {/* Newsletter */}
             <div className="space-y-3 pt-4">
-              <h5 className="font-semibold">Stay Updated</h5>
+              <h5 className="font-semibold">Restez Informé</h5>
               <div className="flex space-x-2">
                 <Input 
-                  placeholder="Enter your email" 
+                  placeholder="Entrez votre email" 
                   className="bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/60"
                 />
                 <Button variant="secondary" size="sm">
-                  Subscribe
+                  S'abonner
                 </Button>
               </div>
             </div>
@@ -129,17 +128,17 @@ export const Footer = () => {
       <div className="container mx-auto px-4 py-6">
         <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <div className="text-sm text-primary-foreground/80">
-            © 2024 Majik Professional Services. All rights reserved.
+            © 2025 Majik Services Professionnels. Tous droits réservés.
           </div>
           <div className="flex space-x-6 text-sm">
             <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
-              Privacy Policy
+              Politique de Confidentialité
             </a>
             <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
-              Terms of Service
+              Conditions d'Utilisation
             </a>
             <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
-              Cookie Policy
+              Politique des Cookies
             </a>
           </div>
         </div>
