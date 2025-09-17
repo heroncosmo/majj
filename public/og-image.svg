@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e40af;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#60a5fa;stop-opacity:1" />
+    </linearGradient>
+    <filter id="textShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="3" dy="3" stdDeviation="4" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGradient)"/>
+  
+  <!-- Decorative cleaning elements -->
+  <circle cx="100" cy="100" r="30" fill="#ffffff" opacity="0.1"/>
+  <circle cx="1100" cy="530" r="40" fill="#ffffff" opacity="0.1"/>
+  <circle cx="1050" cy="100" r="25" fill="#fbbf24" opacity="0.3"/>
+  
+  <!-- Main logo area -->
+  <rect x="80" y="180" width="200" height="200" rx="20" fill="#ffffff" opacity="0.95"/>
+  
+  <!-- Majik "M" logo -->
+  <path d="M120 350 L120 220 L150 220 L180 300 L210 220 L240 220 L240 350 L210 350 L210 260 L180 340 L150 260 L150 350 Z" 
+        fill="#1e40af" 
+        stroke="#1e40af" 
+        stroke-width="2"/>
+  
+  <!-- Main title -->
+  <text x="350" y="280" font-family="Arial, sans-serif" font-size="72" font-weight="bold" 
+        fill="#ffffff" filter="url(#textShadow)">MAJIK SERVICES</text>
+  
+  <!-- Subtitle -->
+  <text x="350" y="330" font-family="Arial, sans-serif" font-size="36" font-weight="normal" 
+        fill="#ffffff" opacity="0.9">Services de Nettoyage Professionnels</text>
+  
+  <!-- Location -->
+  <text x="350" y="380" font-family="Arial, sans-serif" font-size="28" font-weight="normal" 
+        fill="#fbbf24" opacity="0.9">Goiânia, Brésil</text>
+  
+  <!-- Call to action -->
+  <rect x="350" y="420" width="300" height="60" rx="30" fill="#fbbf24" opacity="0.9"/>
+  <text x="500" y="460" font-family="Arial, sans-serif" font-size="24" font-weight="bold" 
+        text-anchor="middle" fill="#1e40af">Demandez votre devis</text>
+  
+  <!-- Sparkle decorations -->
+  <circle cx="950" cy="200" r="8" fill="#fbbf24"/>
+  <path d="M950 184 L950 216 M934 200 L966 200" stroke="#fbbf24" stroke-width="4"/>
+  
+  <circle cx="850" cy="450" r="6" fill="#ffffff" opacity="0.8"/>
+  <path d="M850 438 L850 462 M838 450 L862 450" stroke="#ffffff" stroke-width="3" opacity="0.8"/>
+</svg>
