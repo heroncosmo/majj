@@ -10,39 +10,39 @@ export const ServicesGrid = () => {
   const services = [
     {
       icon: Home,
-      title: "Nettoyage Résidentiel",
-      description: "Nettoyage complet de la maison avec attention à chaque détail. Service professionnel et fiable pour votre domicile.",
-      features: ["Nettoyage en profondeur", "Entretien régulier", "Produits écologiques"],
-      price: "À partir de 80€",
-      popular: false,
-      image: cleaningService
-    },
-    {
-      icon: Shirt,
-      title: "Service de Repassage",
-      description: "Service de repassage professionnel qui laisse vos vêtements impeccables et sans plis. Collecte et livraison disponibles.",
-      features: ["Collecte et livraison", "Repassage professionnel", "Soin des vêtements"],
-      price: "À partir de 25€",
+      title: "Service de Femme de Ménage",
+      description: "Service de femme de ménage professionnel à Goiânia. Nettoyage complet de votre maison avec des professionnels de confiance.",
+      features: ["Nettoyage en profondeur", "Entretien régulier", "Professionnels vérifiés"],
+      price: "À partir de R$ 80",
       popular: true,
-      image: ironingService
+      image: cleaningService
     },
     {
       icon: Building2,
       title: "Nettoyage Commercial",
-      description: "Solutions de nettoyage complètes pour bureaux et entreprises. Maintenez un environnement professionnel.",
+      description: "Solutions de nettoyage complètes pour bureaux et entreprises à Goiânia. Maintenez un environnement professionnel.",
       features: ["Nettoyage de bureaux", "Service planifié", "Forfaits personnalisés"],
-      price: "À partir de 150€",
+      price: "À partir de R$ 150",
       popular: false,
       image: commercialService
     },
     {
       icon: Sparkles,
       title: "Nettoyage Approfondi",
-      description: "Service de nettoyage intensif pour emménagement, déménagement ou nettoyage saisonnier approfondi.",
-      features: ["Nettoyage d'emménagement", "Service saisonnier", "Désinfection détaillée"],
-      price: "À partir de 200€",
+      description: "Service de nettoyage intensif pour emménagement, déménagement ou nettoyage post-construction.",
+      features: ["Nettoyage post-construction", "Service d'emménagement", "Désinfection complète"],
+      price: "À partir de R$ 200",
       popular: false,
       image: cleaningService
+    },
+    {
+      icon: Shirt,
+      title: "Organisation et Rangement",
+      description: "Service d'organisation et rangement pour maintenir votre maison propre et organisée en permanence.",
+      features: ["Organisation d'espaces", "Rangement professionnel", "Conseils personnalisés"],
+      price: "À partir de R$ 100",
+      popular: false,
+      image: ironingService
     }
   ];
 
@@ -54,7 +54,7 @@ export const ServicesGrid = () => {
             Nos Services Professionnels
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Choisissez parmi notre gamme de services de nettoyage professionnels, tous exécutés par des professionnels vérifiés et expérimentés
+            Choisissez parmi notre gamme de services de nettoyage professionnels à Goiânia, tous exécutés par des professionnels vérifiés avec plus de 10 ans d'expérience
           </p>
         </div>
 
@@ -109,7 +109,7 @@ export const ServicesGrid = () => {
               <span className="text-4xl font-bold text-primary">500+</span>
             </div>
             <h3 className="text-xl font-semibold mb-2">Professionnels Vérifiés</h3>
-            <p className="text-muted-foreground">Professionnels soigneusement sélectionnés et vérifiés</p>
+            <p className="text-muted-foreground">Plus de 10 ans d'expérience avec des professionnels de confiance</p>
           </div>
           
           <div className="text-center">

@@ -9,48 +9,48 @@ const About = () => {
   const values = [
     {
       icon: Heart,
-      title: "Quality First",
-      description: "We're committed to delivering exceptional service that exceeds expectations every time."
+      title: "Qualité d'Abord",
+      description: "Nous nous engageons à fournir un service exceptionnel qui dépasse les attentes à chaque fois."
     },
     {
       icon: Shield,
-      title: "Trust & Security", 
-      description: "All professionals are thoroughly vetted, insured, and background-checked for your safety."
+      title: "Confiance et Sécurité",
+      description: "Tous les professionnels sont soigneusement vérifiés, assurés et contrôlés pour votre sécurité."
     },
     {
       icon: Zap,
-      title: "Reliability",
-      description: "Consistent, dependable service you can count on, delivered when and how you need it."
+      title: "Fiabilité",
+      description: "Service cohérent et fiable sur lequel vous pouvez compter, livré quand et comme vous en avez besoin."
     },
     {
       icon: Users,
-      title: "Community Focus",
-      description: "Supporting local professionals while building lasting relationships with our clients."
+      title: "Focus Communautaire",
+      description: "Soutenir les professionnels locaux tout en construisant des relations durables avec nos clients."
     }
   ];
 
   const stats = [
-    { number: "10,000+", label: "Happy Customers" },
-    { number: "500+", label: "Verified Professionals" },
-    { number: "50+", label: "Cities Served" },
-    { number: "99%", label: "Satisfaction Rate" }
+    { number: "10+", label: "Années d'Expérience" },
+    { number: "500+", label: "Professionnels Vérifiés" },
+    { number: "Goiânia", label: "Ville Servie" },
+    { number: "99%", label: "Taux de Satisfaction" }
   ];
 
   const team = [
     {
       name: "Sarah Johnson",
-      role: "Founder & CEO",
-      description: "15+ years in service industry, passionate about connecting quality professionals with families."
+      role: "Fondatrice & PDG",
+      description: "Plus de 15 ans dans l'industrie des services, passionnée par la connexion de professionnels de qualité avec les familles."
     },
     {
-      name: "Mike Rodriguez", 
-      role: "Operations Director",
-      description: "Expert in logistics and quality control, ensuring every service meets our high standards."
+      name: "Mike Rodriguez",
+      role: "Directeur des Opérations",
+      description: "Expert en logistique et contrôle qualité, s'assurant que chaque service répond à nos normes élevées."
     },
     {
       name: "Lisa Chen",
-      role: "Customer Success Manager",
-      description: "Dedicated to ensuring every customer experience is exceptional from start to finish."
+      role: "Responsable Succès Client",
+      description: "Dédiée à s'assurer que chaque expérience client soit exceptionnelle du début à la fin."
     }
   ];
 
@@ -64,15 +64,15 @@ const About = () => {
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
               <h1 className="text-4xl lg:text-6xl font-bold mb-6">
-                About Majik Services
+                À Propos de Majik Services
               </h1>
               <p className="text-xl mb-8 leading-relaxed">
-                We're more than just a cleaning service platform. We're a community dedicated to 
-                connecting families with trusted professionals who care about quality and reliability.
+                Nous sommes fournisseur de services externalisés depuis plus de 10 ans. Services de femme de ménage à Goiânia.
+                Une communauté dédiée à connecter les familles avec des professionnels de confiance qui se soucient de la qualité et de la fiabilité.
               </p>
               <Link to="/contact">
                 <Button size="lg" variant="secondary" className="text-lg px-8">
-                  Get in Touch
+                  Entrer en Contact
                 </Button>
               </Link>
             </div>
@@ -84,22 +84,20 @@ const About = () => {
           <div className="container mx-auto px-4">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
-                <h2 className="text-3xl font-bold mb-6">Our Story</h2>
+                <h2 className="text-3xl font-bold mb-6">Notre Histoire</h2>
                 <div className="space-y-4 text-muted-foreground leading-relaxed">
                   <p>
-                    Founded in 2020, Majik Services was born from a simple idea: everyone deserves 
-                    more time to enjoy life while having access to reliable, quality cleaning services.
+                    Nous sommes fournisseur de services externalisés depuis plus de 10 ans. Services de femme de ménage à Goiânia.
+                    Économisez temps et argent en engageant un service spécialisé, de qualité garantie avec des professionnels de confiance.
                   </p>
                   <p>
-                    Our founders experienced firsthand the challenges of finding trustworthy cleaning 
-                    professionals. Too many services were unreliable, overpriced, or simply didn't 
-                    meet quality expectations.
+                    Nous laissons votre maison propre et parfumée et vous avez un environnement agréable et organisé pour recharger vos énergies.
+                    Notre expérience nous a permis de comprendre les défis de trouver des professionnels de nettoyage fiables.
                   </p>
                   <p>
-                    That's why we created Majik - a platform that carefully vets every professional, 
-                    ensures fair pricing, and guarantees quality service. Today, we're proud to serve 
-                    thousands of families while supporting hundreds of professional cleaners in 
-                    building successful businesses.
+                    C'est pourquoi nous avons créé Majik - une plateforme qui vérifie soigneusement chaque professionnel,
+                    assure des prix équitables et garantit un service de qualité. Aujourd'hui, nous sommes fiers de servir
+                    des milliers de familles à Goiânia tout en soutenant des centaines de professionnels du nettoyage.
                   </p>
                 </div>
               </div>
@@ -107,21 +105,21 @@ const About = () => {
                 <Card className="p-6 bg-accent/30">
                   <div className="flex items-center space-x-4 mb-4">
                     <Target className="w-8 h-8 text-primary" />
-                    <h3 className="text-xl font-semibold">Our Mission</h3>
+                    <h3 className="text-xl font-semibold">Notre Mission</h3>
                   </div>
                   <p className="text-muted-foreground">
-                    To provide exceptional cleaning services through a network of verified professionals, 
-                    giving families more time for what matters most while supporting local service providers.
+                    Fournir des services de nettoyage exceptionnels à travers un réseau de professionnels vérifiés,
+                    donnant aux familles plus de temps pour ce qui compte le plus tout en soutenant les prestataires de services locaux.
                   </p>
                 </Card>
                 <Card className="p-6 bg-accent/30">
                   <div className="flex items-center space-x-4 mb-4">
                     <Award className="w-8 h-8 text-primary" />
-                    <h3 className="text-xl font-semibold">Our Vision</h3>
+                    <h3 className="text-xl font-semibold">Notre Vision</h3>
                   </div>
                   <p className="text-muted-foreground">
-                    To become the most trusted platform for home services, setting the gold standard 
-                    for quality, reliability, and customer satisfaction in the industry.
+                    Devenir la plateforme la plus fiable pour les services à domicile à Goiânia, établissant la référence
+                    pour la qualité, la fiabilité et la satisfaction client dans l'industrie.
                   </p>
                 </Card>
               </div>
@@ -133,9 +131,9 @@ const About = () => {
         <section className="py-20 bg-accent/30">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold mb-4">Our Values</h2>
+              <h2 className="text-3xl font-bold mb-4">Nos Valeurs</h2>
               <p className="text-muted-foreground max-w-2xl mx-auto">
-                These core principles guide everything we do and shape how we serve our customers and professionals
+                Ces principes fondamentaux guident tout ce que nous faisons et façonnent la façon dont nous servons nos clients et professionnels
               </p>
             </div>
 
@@ -159,9 +157,9 @@ const About = () => {
         <section className="py-20">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold mb-4">Our Impact</h2>
+              <h2 className="text-3xl font-bold mb-4">Notre Impact</h2>
               <p className="text-muted-foreground">
-                Numbers that reflect our commitment to excellence and growth
+                Des chiffres qui reflètent notre engagement envers l'excellence et la croissance
               </p>
             </div>
 
@@ -184,9 +182,9 @@ const About = () => {
         <section className="py-20 bg-accent/30">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold mb-4">Meet Our Team</h2>
+              <h2 className="text-3xl font-bold mb-4">Rencontrez Notre Équipe</h2>
               <p className="text-muted-foreground max-w-2xl mx-auto">
-                The passionate people behind Majik Services, dedicated to making your life easier
+                Les personnes passionnées derrière Majik Services, dédiées à vous faciliter la vie
               </p>
             </div>
 
@@ -213,9 +211,9 @@ const About = () => {
         <section className="py-20">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold mb-4">Quality Assurance</h2>
+              <h2 className="text-3xl font-bold mb-4">Assurance Qualité</h2>
               <p className="text-muted-foreground max-w-2xl mx-auto">
-                How we ensure every service meets our high standards
+                Comment nous nous assurons que chaque service répond à nos normes élevées
               </p>
             </div>
 
@@ -223,30 +221,30 @@ const About = () => {
               <Card className="p-6">
                 <div className="flex items-center space-x-3 mb-4">
                   <div className="w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold text-sm">1</div>
-                  <h3 className="text-lg font-semibold">Professional Screening</h3>
+                  <h3 className="text-lg font-semibold">Sélection Professionnelle</h3>
                 </div>
                 <p className="text-muted-foreground text-sm">
-                  Comprehensive background checks, reference verification, and skills assessment for every professional.
+                  Vérifications d'antécédents complètes, vérification des références et évaluation des compétences pour chaque professionnel.
                 </p>
               </Card>
 
               <Card className="p-6">
                 <div className="flex items-center space-x-3 mb-4">
                   <div className="w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold text-sm">2</div>
-                  <h3 className="text-lg font-semibold">Ongoing Training</h3>
+                  <h3 className="text-lg font-semibold">Formation Continue</h3>
                 </div>
                 <p className="text-muted-foreground text-sm">
-                  Regular training sessions on best practices, safety protocols, and customer service excellence.
+                  Sessions de formation régulières sur les meilleures pratiques, protocoles de sécurité et excellence du service client.
                 </p>
               </Card>
 
               <Card className="p-6">
                 <div className="flex items-center space-x-3 mb-4">
                   <div className="w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold text-sm">3</div>
-                  <h3 className="text-lg font-semibold">Quality Monitoring</h3>
+                  <h3 className="text-lg font-semibold">Surveillance Qualité</h3>
                 </div>
                 <p className="text-muted-foreground text-sm">
-                  Regular quality checks, customer feedback monitoring, and performance evaluations.
+                  Contrôles qualité réguliers, surveillance des commentaires clients et évaluations de performance.
                 </p>
               </Card>
             </div>
@@ -256,19 +254,19 @@ const About = () => {
         {/* CTA */}
         <section className="py-20 bg-primary text-primary-foreground">
           <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl font-bold mb-6">Ready to Experience the Difference?</h2>
+            <h2 className="text-3xl font-bold mb-6">Prêt à Découvrir la Différence ?</h2>
             <p className="text-xl mb-8 max-w-2xl mx-auto">
-              Join our community of satisfied customers and discover why Majik Services is the trusted choice for professional cleaning.
+              Rejoignez notre communauté de clients satisfaits et découvrez pourquoi Majik Services est le choix de confiance pour le nettoyage professionnel.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/quote">
                 <Button size="lg" variant="secondary" className="text-lg px-8">
-                  Get Your Quote
+                  Obtenez Votre Devis
                 </Button>
               </Link>
               <Link to="/contact">
                 <Button size="lg" variant="outline" className="text-lg px-8 text-primary-foreground border-primary-foreground hover:bg-primary-foreground hover:text-primary">
-                  Contact Us
+                  Contactez-Nous
                 </Button>
               </Link>
             </div>

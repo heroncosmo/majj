@@ -1,58 +1,54 @@
-# Welcome to your Lovable project
+# Majik Services - Site Web Professionnel
 
-## Project info
+## À propos du projet
 
-**URL**: https://lovable.dev/projects/1826b3a0-ddfc-444a-bfbc-10832c3c2eba
+Site web professionnel pour Majik Services, une entreprise de services de nettoyage à Goiânia, Brésil.
 
-## How can I edit this code?
+**URL du projet**: https://github.com/heroncosmo/majj
 
-There are several ways of editing your application.
+## Comment modifier ce code ?
 
-**Use Lovable**
+Il existe plusieurs façons de modifier cette application.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/1826b3a0-ddfc-444a-bfbc-10832c3c2eba) and start prompting.
+**Utiliser votre IDE préféré**
 
-Changes made via Lovable will be committed automatically to this repo.
+Si vous souhaitez travailler localement avec votre propre IDE, vous pouvez cloner ce dépôt et pousser les modifications.
 
-**Use your preferred IDE**
+La seule exigence est d'avoir Node.js et npm installés - [installer avec nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+Suivez ces étapes :
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# Étape 1 : Cloner le dépôt en utilisant l'URL Git du projet.
+git clone https://github.com/heroncosmo/majj.git
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Étape 2 : Naviguer vers le répertoire du projet.
+cd majj
 
-# Step 3: Install the necessary dependencies.
+# Étape 3 : Installer les dépendances nécessaires.
 npm i
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Étape 4 : Démarrer le serveur de développement avec rechargement automatique et aperçu instantané.
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+**Modifier un fichier directement dans GitHub**
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+- Naviguer vers le(s) fichier(s) souhaité(s).
+- Cliquer sur le bouton "Edit" (icône crayon) en haut à droite de la vue du fichier.
+- Apporter vos modifications et valider les changements.
 
-**Use GitHub Codespaces**
+**Utiliser GitHub Codespaces**
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+- Naviguer vers la page principale de votre dépôt.
+- Cliquer sur le bouton "Code" (bouton vert) près du coin supérieur droit.
+- Sélectionner l'onglet "Codespaces".
+- Cliquer sur "New codespace" pour lancer un nouvel environnement Codespace.
+- Modifier les fichiers directement dans le Codespace et valider et pousser vos modifications une fois terminé.
 
-## What technologies are used for this project?
+## Quelles technologies sont utilisées pour ce projet ?
 
-This project is built with:
+Ce projet est construit avec :
 
 - Vite
 - TypeScript
@@ -60,14 +56,19 @@ This project is built with:
 - shadcn-ui
 - Tailwind CSS
 
-## How can I deploy this project?
+## Comment déployer ce projet ?
 
-Simply open [Lovable](https://lovable.dev/projects/1826b3a0-ddfc-444a-bfbc-10832c3c2eba) and click on Share -> Publish.
+Le projet peut être déployé sur diverses plateformes comme Vercel, Netlify, ou GitHub Pages.
 
-## Can I connect a custom domain to my Lovable project?
+Pour déployer sur Vercel :
+1. Connectez votre dépôt GitHub à Vercel
+2. Configurez les paramètres de build (généralement automatiques)
+3. Déployez
 
-Yes, you can!
+## Fonctionnalités
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+- Site web responsive pour services de nettoyage
+- Interface multilingue (français)
+- Formulaires de contact et devis
+- Inscription pour professionnels
+- Design moderne avec Tailwind CSS

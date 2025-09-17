@@ -34,22 +34,22 @@ const Quote = () => {
   });
 
   const serviceTypes = [
-    "Regular House Cleaning",
-    "Deep Cleaning",
-    "Move-in/Move-out Cleaning",
-    "Post-Construction Cleaning",
-    "Commercial Office Cleaning",
-    "Ironing Service"
+    "Nettoyage Résidentiel Régulier",
+    "Nettoyage Approfondi",
+    "Nettoyage d'Emménagement/Déménagement",
+    "Nettoyage Post-Construction",
+    "Nettoyage Commercial de Bureau",
+    "Service d'Organisation"
   ];
 
   const specialRequests = [
-    "Pet-friendly products",
-    "Eco-friendly products only", 
-    "Window cleaning included",
-    "Refrigerator cleaning",
-    "Oven cleaning",
-    "Laundry service",
-    "Organizing service"
+    "Produits respectueux des animaux",
+    "Produits écologiques uniquement",
+    "Nettoyage des vitres inclus",
+    "Nettoyage du réfrigérateur",
+    "Nettoyage du four",
+    "Service de lessive",
+    "Service d'organisation"
   ];
 
   const handleSpecialRequestChange = (request: string, checked: boolean) => {
@@ -64,8 +64,8 @@ const Quote = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     toast({
-      title: "Quote Request Submitted!",
-      description: "Thank you for your request. Our team will contact you within 24 hours with a detailed quote."
+      title: "Demande de Devis Soumise!",
+      description: "Merci pour votre demande. Notre équipe vous contactera dans les 24 heures avec un devis détaillé."
     });
   };
 
@@ -81,17 +81,17 @@ const Quote = () => {
               <Calculator className="w-16 h-16 text-primary" />
             </div>
             <h1 className="text-4xl font-bold text-foreground mb-4">
-              Get Your Free Quote
+              Obtenez Votre Devis Gratuit
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Tell us about your cleaning needs and we'll provide you with a detailed, personalized quote
+              Parlez-nous de vos besoins de nettoyage et nous vous fournirons un devis détaillé et personnalisé
             </p>
           </div>
 
           {/* Quote Form */}
           <Card className="shadow-lg">
             <CardHeader>
-              <CardTitle className="text-2xl text-center">Request a Quote</CardTitle>
+              <CardTitle className="text-2xl text-center">Demander un Devis</CardTitle>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-8">
@@ -99,11 +99,11 @@ const Quote = () => {
                 <div className="space-y-6">
                   <h3 className="text-lg font-semibold border-b border-border pb-2 flex items-center">
                     <MapPin className="w-5 h-5 mr-2" />
-                    Contact Information
+                    Informations de Contact
                   </h3>
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <Label htmlFor="firstName">First Name *</Label>
+                      <Label htmlFor="firstName">Prénom *</Label>
                       <Input
                         id="firstName"
                         value={formData.firstName}
@@ -112,7 +112,7 @@ const Quote = () => {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="lastName">Last Name *</Label>
+                      <Label htmlFor="lastName">Nom de Famille *</Label>
                       <Input
                         id="lastName"
                         value={formData.lastName}
@@ -121,7 +121,7 @@ const Quote = () => {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="email">Email Address *</Label>
+                      <Label htmlFor="email">Adresse Email *</Label>
                       <Input
                         id="email"
                         type="email"
@@ -131,7 +131,7 @@ const Quote = () => {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="phone">Phone Number *</Label>
+                      <Label htmlFor="phone">Numéro de Téléphone *</Label>
                       <Input
                         id="phone"
                         type="tel"
@@ -145,10 +145,10 @@ const Quote = () => {
 
                 {/* Service Location */}
                 <div className="space-y-6">
-                  <h3 className="text-lg font-semibold border-b border-border pb-2">Service Location</h3>
+                  <h3 className="text-lg font-semibold border-b border-border pb-2">Lieu du Service</h3>
                   <div className="grid gap-6">
                     <div className="space-y-2">
-                      <Label htmlFor="address">Street Address *</Label>
+                      <Label htmlFor="address">Adresse de la Rue *</Label>
                       <Input
                         id="address"
                         value={formData.address}
@@ -158,7 +158,7 @@ const Quote = () => {
                     </div>
                     <div className="grid md:grid-cols-2 gap-6">
                       <div className="space-y-2">
-                        <Label htmlFor="city">City *</Label>
+                        <Label htmlFor="city">Ville *</Label>
                         <Input
                           id="city"
                           value={formData.city}
@@ -167,7 +167,7 @@ const Quote = () => {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="zipCode">ZIP Code *</Label>
+                        <Label htmlFor="zipCode">Code Postal *</Label>
                         <Input
                           id="zipCode"
                           value={formData.zipCode}
@@ -181,13 +181,13 @@ const Quote = () => {
 
                 {/* Service Details */}
                 <div className="space-y-6">
-                  <h3 className="text-lg font-semibold border-b border-border pb-2">Service Details</h3>
+                  <h3 className="text-lg font-semibold border-b border-border pb-2">Détails du Service</h3>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="serviceType">Type of Service *</Label>
+                    <Label htmlFor="serviceType">Type de Service *</Label>
                     <Select value={formData.serviceType} onValueChange={(value) => setFormData(prev => ({ ...prev, serviceType: value }))}>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select the type of service you need" />
+                        <SelectValue placeholder="Sélectionnez le type de service dont vous avez besoin" />
                       </SelectTrigger>
                       <SelectContent>
                         {serviceTypes.map((service) => (
@@ -199,17 +199,17 @@ const Quote = () => {
 
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <Label htmlFor="propertyType">Property Type *</Label>
+                      <Label htmlFor="propertyType">Type de Propriété *</Label>
                       <Select value={formData.propertyType} onValueChange={(value) => setFormData(prev => ({ ...prev, propertyType: value }))}>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select property type" />
+                          <SelectValue placeholder="Sélectionnez le type de propriété" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="apartment">Apartment</SelectItem>
-                          <SelectItem value="house">House</SelectItem>
-                          <SelectItem value="condo">Condo</SelectItem>
-                          <SelectItem value="office">Office</SelectItem>
-                          <SelectItem value="other">Other</SelectItem>
+                          <SelectItem value="apartment">Appartement</SelectItem>
+                          <SelectItem value="house">Maison</SelectItem>
+                          <SelectItem value="condo">Copropriété</SelectItem>
+                          <SelectItem value="office">Bureau</SelectItem>
+                          <SelectItem value="other">Autre</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -356,7 +356,7 @@ const Quote = () => {
                 {/* Submit Button */}
                 <div className="flex justify-center pt-6">
                   <Button type="submit" size="lg" className="px-12">
-                    Request Free Quote
+                    Demander un Devis Gratuit
                   </Button>
                 </div>
               </form>

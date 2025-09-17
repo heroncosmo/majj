@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Phone, Mail, MapPin, Facebook, Instagram, MessageSquare } from "lucide-react";
 import { Link } from "react-router-dom";
-import majikLogoTemp from "@/assets/majik-logo-temp.png";
+import majikLogo from "@/assets/LOGO-MAJIK-NOVO-slogan.png";
 
 export const Footer = () => {
   return (
@@ -14,26 +14,27 @@ export const Footer = () => {
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <img 
-                src={majikLogoTemp} 
-                alt="Majik" 
+              <img
+                src={majikLogo}
+                alt="Majik"
                 className="h-8 w-auto object-contain"
               />
             </div>
             <p className="text-primary-foreground/80 leading-relaxed">
-              Services de nettoyage de qualité et fiables avec des professionnels spécialement sélectionnés et compétents. 
-              Votre partenaire de confiance pour tous vos besoins de nettoyage.
+              Nous sommes fournisseur de services externalisés depuis plus de 10 ans. Services de femme de ménage à Goiânia.
+              Économisez temps et argent en engageant un service spécialisé, de qualité garantie avec des professionnels de confiance.
             </p>
             <div className="flex space-x-3">
-              <Button variant="outline" size="sm" className="text-primary">
-                <Facebook className="w-4 h-4" />
-              </Button>
-              <Button variant="outline" size="sm" className="text-primary">
-                <Instagram className="w-4 h-4" />
-              </Button>
-              <Button variant="outline" size="sm" className="text-primary">
-                <MessageSquare className="w-4 h-4" />
-              </Button>
+              <a href="https://www.facebook.com/majikservicos/" target="_blank" rel="noopener noreferrer">
+                <Button variant="outline" size="sm" className="text-primary">
+                  <Facebook className="w-4 h-4" />
+                </Button>
+              </a>
+              <a href="https://www.instagram.com/netmajik/" target="_blank" rel="noopener noreferrer">
+                <Button variant="outline" size="sm" className="text-primary">
+                  <Instagram className="w-4 h-4" />
+                </Button>
+              </a>
             </div>
           </div>
 
@@ -81,9 +82,9 @@ export const Footer = () => {
               <li className="text-primary-foreground/80">Nettoyage Résidentiel</li>
               <li className="text-primary-foreground/80">Nettoyage Commercial</li>
               <li className="text-primary-foreground/80">Nettoyage Approfondi</li>
-              <li className="text-primary-foreground/80">Service de Repassage</li>
-              <li className="text-primary-foreground/80">Emménagement/Déménagement</li>
-              <li className="text-primary-foreground/80">Après Construction</li>
+              <li className="text-primary-foreground/80">Service de Femme de Ménage</li>
+              <li className="text-primary-foreground/80">Nettoyage Post-Construction</li>
+              <li className="text-primary-foreground/80">Organisation et Rangement</li>
             </ul>
           </div>
 
@@ -93,15 +94,15 @@ export const Footer = () => {
             <div className="space-y-3">
               <div className="flex items-center space-x-2">
                 <Phone className="w-4 h-4" />
-                <span className="text-primary-foreground/80">+33 1 23 45 67 89</span>
+                <span className="text-primary-foreground/80">+55 62 99560-5542</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Mail className="w-4 h-4" />
-                <span className="text-primary-foreground/80">info@majikservices.fr</span>
+                <span className="text-primary-foreground/80">info@majikservices.com.br</span>
               </div>
               <div className="flex items-center space-x-2">
                 <MapPin className="w-4 h-4" />
-                <span className="text-primary-foreground/80">123 Avenue Professionnelle<br />75001 Paris, France</span>
+                <span className="text-primary-foreground/80">Avenida Padre Monte. 1723<br />Goiânia-GO, Brésil</span>
               </div>
             </div>
 

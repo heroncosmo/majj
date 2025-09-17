@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Phone, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
-import majikLogo from "@/assets/majik-logo.png";
+import majikLogo from "@/assets/LOGO-MAJIK-NOVO-slogan.png";
 
 export const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -15,17 +15,16 @@ export const Navigation = () => {
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
               <Phone className="w-4 h-4" />
-              <span>+33 1 23 45 67 89</span>
+              <span>+55 62 99560-5542</span>
             </div>
             <div className="flex items-center space-x-2">
               <Clock className="w-4 h-4" />
-              <span>Lun - Ven: 8h00 - 18h00</span>
+              <span>Lun - Ven: 8h - 18h | Sam: 8h - 12h</span>
             </div>
           </div>
           <div className="hidden md:flex space-x-3">
-            <a href="#" className="hover:text-primary-foreground/80 transition-colors">Facebook</a>
-            <a href="#" className="hover:text-primary-foreground/80 transition-colors">Instagram</a>
-            <a href="#" className="hover:text-primary-foreground/80 transition-colors">WhatsApp</a>
+            <a href="https://www.facebook.com/majikservicos/" className="hover:text-primary-foreground/80 transition-colors">Facebook</a>
+            <a href="https://www.instagram.com/netmajik/" className="hover:text-primary-foreground/80 transition-colors">Instagram</a>
           </div>
         </div>
       </div>
@@ -36,9 +35,9 @@ export const Navigation = () => {
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <Link to="/" className="flex items-center space-x-2">
-              <img 
-                src={majikLogo} 
-                alt="Majik - Services Professionnels" 
+              <img
+                src={majikLogo}
+                alt="Majik - Services de Nettoyage"
                 className="h-12 w-auto object-contain"
               />
             </Link>
@@ -51,7 +50,7 @@ export const Navigation = () => {
               <Link to="/services" className="text-foreground hover:text-primary transition-colors font-medium">
                 Nos Services
               </Link>
-              <Link to="/professionals" className="text-foreground hover:text-primary transition-colors font-medium">
+              <Link to="/register" className="text-foreground hover:text-primary transition-colors font-medium">
                 Travailler avec Nous
               </Link>
               <Link to="/about" className="text-foreground hover:text-primary transition-colors font-medium">
@@ -91,7 +90,7 @@ export const Navigation = () => {
                 <Link to="/services" className="text-foreground hover:text-primary transition-colors font-medium py-2">
                   Nos Services
                 </Link>
-                <Link to="/professionals" className="text-foreground hover:text-primary transition-colors font-medium py-2">
+                <Link to="/register" className="text-foreground hover:text-primary transition-colors font-medium py-2">
                   Travailler avec Nous
                 </Link>
                 <Link to="/about" className="text-foreground hover:text-primary transition-colors font-medium py-2">

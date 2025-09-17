@@ -6,18 +6,18 @@ export const HowItWorks = () => {
   const steps = [
     {
       icon: ClipboardList,
-      title: "Choisissez Vos Services",
-      description: "Remplissez les formulaires pour chaque service et nous choisirons le meilleur plan pour vos besoins. C'est simple et rapide."
+      title: "Demandez Votre Devis",
+      description: "Contactez-nous par téléphone ou WhatsApp pour décrire vos besoins de nettoyage. Nous vous fournirons un devis personnalisé."
     },
     {
       icon: CheckSquare,
-      title: "Vérifiez Votre Contrat",
-      description: "Vous pouvez vérifier et confirmer que les plans choisis correspondent à ce dont vous avez besoin en ce moment."
+      title: "Planifiez Votre Service",
+      description: "Choisissez la date et l'heure qui vous conviennent. Nos professionnels vérifiés se rendront chez vous à l'heure convenue."
     },
     {
       icon: CreditCard,
-      title: "Fournissez l'Adresse et le Paiement",
-      description: "Entrez le lieu de service et complétez le paiement sécurisé pour confirmer votre réservation."
+      title: "Profitez du Résultat",
+      description: "Détendez-vous pendant que nos experts nettoient votre maison. Paiement sécurisé après le service terminé."
     }
   ];
 
@@ -26,10 +26,10 @@ export const HowItWorks = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-foreground mb-4">
-            Embauchez en Seulement 3 Étapes
+            Engagez en Seulement 3 Étapes
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Notre processus simplifié facilite l'obtention des services professionnels dont vous avez besoin
+            Notre processus simplifié facilite l'obtention des services de nettoyage professionnels à Goiânia
           </p>
         </div>
 

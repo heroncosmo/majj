@@ -28,12 +28,12 @@ const Register = () => {
   });
 
   const serviceTypes = [
-    "Residential Cleaning",
-    "Commercial Cleaning", 
-    "Deep Cleaning",
-    "Ironing Service",
-    "Window Cleaning",
-    "Carpet Cleaning"
+    "Nettoyage Résidentiel",
+    "Nettoyage Commercial",
+    "Nettoyage Approfondi",
+    "Service de Femme de Ménage",
+    "Nettoyage des Vitres",
+    "Organisation et Rangement"
   ];
 
   const handleServiceTypeChange = (serviceType: string, checked: boolean) => {
@@ -48,8 +48,8 @@ const Register = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     toast({
-      title: "Registration Submitted!",
-      description: "Thank you for registering. We'll review your application and contact you soon."
+      title: "Inscription Soumise!",
+      description: "Merci de vous être inscrit. Nous examinerons votre candidature et vous contacterons bientôt."
     });
   };
 
@@ -65,26 +65,26 @@ const Register = () => {
               <UserPlus className="w-16 h-16 text-primary" />
             </div>
             <h1 className="text-4xl font-bold text-foreground mb-4">
-              Join Our Professional Network
+              Rejoignez Notre Réseau Professionnel
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Register as a cleaning professional and start receiving job opportunities directly to your phone
+              Inscrivez-vous comme professionnel du nettoyage et commencez à recevoir des opportunités d'emploi directement sur votre téléphone
             </p>
           </div>
 
           {/* Registration Form */}
           <Card className="shadow-lg">
             <CardHeader>
-              <CardTitle className="text-2xl text-center">Professional Registration Form</CardTitle>
+              <CardTitle className="text-2xl text-center">Formulaire d'Inscription Professionnelle</CardTitle>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-8">
                 {/* Personal Information */}
                 <div className="space-y-6">
-                  <h3 className="text-lg font-semibold border-b border-border pb-2">Personal Information</h3>
+                  <h3 className="text-lg font-semibold border-b border-border pb-2">Informations Personnelles</h3>
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <Label htmlFor="firstName">First Name *</Label>
+                      <Label htmlFor="firstName">Prénom *</Label>
                       <Input
                         id="firstName"
                         value={formData.firstName}
@@ -93,7 +93,7 @@ const Register = () => {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="lastName">Last Name *</Label>
+                      <Label htmlFor="lastName">Nom de Famille *</Label>
                       <Input
                         id="lastName"
                         value={formData.lastName}
@@ -102,7 +102,7 @@ const Register = () => {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="email">Email Address *</Label>
+                      <Label htmlFor="email">Adresse Email *</Label>
                       <Input
                         id="email"
                         type="email"
@@ -112,7 +112,7 @@ const Register = () => {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="phone">Phone Number *</Label>
+                      <Label htmlFor="phone">Numéro de Téléphone *</Label>
                       <Input
                         id="phone"
                         type="tel"
@@ -126,7 +126,7 @@ const Register = () => {
 
                 {/* Professional Information */}
                 <div className="space-y-6">
-                  <h3 className="text-lg font-semibold border-b border-border pb-2">Professional Information</h3>
+                  <h3 className="text-lg font-semibold border-b border-border pb-2">Informations Professionnelles</h3>
                   
                   <div className="space-y-2">
                     <Label htmlFor="experience">Years of Experience *</Label>
@@ -259,7 +259,7 @@ const Register = () => {
                 {/* Submit Button */}
                 <div className="flex justify-center pt-6">
                   <Button type="submit" size="lg" className="px-12">
-                    Submit Registration
+                    Soumettre l'Inscription
                   </Button>
                 </div>
               </form>

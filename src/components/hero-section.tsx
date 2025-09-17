@@ -22,41 +22,42 @@ export const HeroSection = () => {
               Ayez Plus de
               <span className="text-secondary block">Temps Libre !</span>
             </h1>
-            
+
             <p className="text-xl text-primary-foreground/90 mb-8 leading-relaxed">
-              Service de qualité, fiable, avec des professionnels spécialement sélectionnés et compétents. 
-              Engagez maintenant et profitez de plus de temps pour ce qui compte le plus !
+              Nous sommes fournisseur de services externalisés depuis plus de 10 ans. Services de femme de ménage à Goiânia.
+              Économisez temps et argent en engageant un service spécialisé, de qualité garantie avec des professionnels de confiance.
+              Nous laisserons votre maison propre et parfumée et vous aurez un environnement agréable et organisé pour recharger vos énergies.
             </p>
 
             {/* Service Buttons */}
             <div className="grid sm:grid-cols-3 gap-4 mb-8">
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 h-auto py-4 px-6"
               >
                 <div className="text-center">
-                  <div className="font-semibold">Femme de Ménage</div>
+                  <div className="font-semibold">Nettoyage Résidentiel</div>
                   <div className="text-sm opacity-80">Pour Votre Maison</div>
                 </div>
               </Button>
-              
-              <Button 
-                size="lg" 
+
+              <Button
+                size="lg"
                 className="bg-secondary text-secondary-foreground hover:bg-secondary-hover h-auto py-4 px-6"
               >
                 <div className="text-center">
-                  <div className="font-semibold">Service de Repassage</div>
-                  <div className="text-sm opacity-80">Soins Professionnels</div>
+                  <div className="font-semibold">Nettoyage Commercial</div>
+                  <div className="text-sm opacity-80">Pour Votre Entreprise</div>
                 </div>
               </Button>
-              
-              <Button 
-                size="lg" 
+
+              <Button
+                size="lg"
                 className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 h-auto py-4 px-6"
               >
                 <div className="text-center">
-                  <div className="font-semibold">Commercial</div>
-                  <div className="text-sm opacity-80">Pour Votre Entreprise</div>
+                  <div className="font-semibold">Nettoyage Approfondi</div>
+                  <div className="text-sm opacity-80">Service Complet</div>
                 </div>
               </Button>
             </div>
@@ -95,22 +96,16 @@ export const HeroSection = () => {
                 <Button className="w-full h-12 text-lg" size="lg">
                   Rejoignez Notre Réseau
                 </Button>
-                
+
                 <div className="text-center">
                   <p className="text-sm text-muted-foreground mb-3">
-                    Téléchargez notre application mobile
+                    Contactez-nous
                   </p>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 gap-3">
                     <Button variant="outline" size="sm" className="h-auto py-2 px-3">
                       <div className="text-xs">
-                        <div>Télécharger sur</div>
-                        <div className="font-semibold">App Store</div>
-                      </div>
-                    </Button>
-                    <Button variant="outline" size="sm" className="h-auto py-2 px-3">
-                      <div className="text-xs">
-                        <div>Disponible sur</div>
-                        <div className="font-semibold">Google Play</div>
+                        <div>WhatsApp:</div>
+                        <div className="font-semibold">+55 62 99560-5542</div>
                       </div>
                     </Button>
                   </div>
