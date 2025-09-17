@@ -6,6 +6,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { useToast } from '../hooks/use-toast'
 import { DatabaseService } from '../lib/database'
 import { Project } from '../lib/supabase'
+import { useAuth } from '../contexts/AuthContext'
 import { 
   Eye, 
   Edit, 
@@ -28,15 +29,18 @@ export const ProjectGallery = ({ onAddProject }: ProjectGalleryProps) => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const { toast } = useToast()
+  const { user } = useAuth()
 
   useEffect(() => {
-    loadProjects()
-  }, [])
+    if (user?.id) {
+      loadProjects(user.id)
+    }
+  }, [user?.id])
 
-  const loadProjects = async () => {
+  const loadProjects = async (professionalId: string) => {
     try {
       setLoading(true)
-      const userProjects = await DatabaseService.getUserProjects()
+      const userProjects = await DatabaseService.getProjectsByProfessional(professionalId)
       setProjects(userProjects)
     } catch (error) {
       console.error('Error loading projects:', error)
@@ -81,17 +85,17 @@ export const ProjectGallery = ({ onAddProject }: ProjectGalleryProps) => {
   }
 
   const nextImage = () => {
-    if (selectedProject && selectedProject.image_urls) {
-      setCurrentImageIndex((prev) => 
-        prev === selectedProject.image_urls!.length - 1 ? 0 : prev + 1
+    if (selectedProject && selectedProject.after_images) {
+      setCurrentImageIndex((prev) =>
+        prev === selectedProject.after_images!.length - 1 ? 0 : prev + 1
       )
     }
   }
 
   const prevImage = () => {
-    if (selectedProject && selectedProject.image_urls) {
-      setCurrentImageIndex((prev) => 
-        prev === 0 ? selectedProject.image_urls!.length - 1 : prev - 1
+    if (selectedProject && selectedProject.after_images) {
+      setCurrentImageIndex((prev) =>
+        prev === 0 ? selectedProject.after_images!.length - 1 : prev - 1
       )
     }
   }
@@ -145,9 +149,9 @@ export const ProjectGallery = ({ onAddProject }: ProjectGalleryProps) => {
         {projects.map((project) => (
           <Card key={project.id} className="overflow-hidden hover:shadow-lg transition-shadow">
             <div className="aspect-video bg-gray-100 relative overflow-hidden">
-              {project.image_urls && project.image_urls.length > 0 ? (
+              {project.after_images && project.after_images.length > 0 ? (
                 <img
-                  src={project.image_urls[0]}
+                  src={project.after_images[0]}
                   alt={project.title}
                   className="w-full h-full object-cover"
                 />
@@ -156,9 +160,9 @@ export const ProjectGallery = ({ onAddProject }: ProjectGalleryProps) => {
                   <ImageIcon className="h-8 w-8 text-gray-400" />
                 </div>
               )}
-              {project.image_urls && project.image_urls.length > 1 && (
+              {project.after_images && project.after_images.length > 1 && (
                 <Badge className="absolute top-2 right-2 bg-black/70 text-white">
-                  +{project.image_urls.length - 1}
+                  +{project.after_images.length - 1}
                 </Badge>
               )}
             </div>
@@ -184,8 +188,8 @@ export const ProjectGallery = ({ onAddProject }: ProjectGalleryProps) => {
                   <Calendar className="h-4 w-4" />
                   <span>{formatDate(project.created_at)}</span>
                 </div>
-                {project.image_urls && (
-                  <span>{project.image_urls.length} photo{project.image_urls.length > 1 ? 's' : ''}</span>
+                {project.after_images && (
+                  <span>{project.after_images.length} photo{project.after_images.length > 1 ? 's' : ''}</span>
                 )}
               </div>
               
@@ -216,17 +220,17 @@ export const ProjectGallery = ({ onAddProject }: ProjectGalleryProps) => {
                     {selectedProject && (
                       <div className="space-y-4">
                         {/* Image Gallery */}
-                        {selectedProject.image_urls && selectedProject.image_urls.length > 0 && (
+                        {selectedProject.after_images && selectedProject.after_images.length > 0 && (
                           <div className="relative">
                             <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
                               <img
-                                src={selectedProject.image_urls[currentImageIndex]}
+                                src={selectedProject.after_images[currentImageIndex]}
                                 alt={`${selectedProject.title} - Image ${currentImageIndex + 1}`}
                                 className="w-full h-full object-cover"
                               />
                             </div>
                             
-                            {selectedProject.image_urls.length > 1 && (
+                            {selectedProject.after_images.length > 1 && (
                               <>
                                 <Button
                                   variant="outline"
@@ -244,10 +248,10 @@ export const ProjectGallery = ({ onAddProject }: ProjectGalleryProps) => {
                                 >
                                   <ChevronRight className="h-4 w-4" />
                                 </Button>
-                                
+
                                 <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2">
                                   <Badge className="bg-black/70 text-white">
-                                    {currentImageIndex + 1} / {selectedProject.image_urls.length}
+                                    {currentImageIndex + 1} / {selectedProject.after_images.length}
                                   </Badge>
                                 </div>
                               </>
@@ -264,9 +268,9 @@ export const ProjectGallery = ({ onAddProject }: ProjectGalleryProps) => {
                         </div>
                         
                         {/* Thumbnails */}
-                        {selectedProject.image_urls && selectedProject.image_urls.length > 1 && (
+                        {selectedProject.after_images && selectedProject.after_images.length > 1 && (
                           <div className="flex space-x-2 overflow-x-auto pb-2">
-                            {selectedProject.image_urls.map((url, index) => (
+                            {selectedProject.after_images.map((url, index) => (
                               <button
                                 key={index}
                                 onClick={() => setCurrentImageIndex(index)}

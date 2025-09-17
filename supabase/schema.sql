@@ -1,5 +1,3 @@
--- Enable RLS
-ALTER TABLE auth.users ENABLE ROW LEVEL SECURITY;
 
 -- Create profiles table
 CREATE TABLE IF NOT EXISTS profiles (
@@ -147,10 +145,14 @@ CREATE POLICY "Admins can insert notifications" ON notifications
     )
   );
 
--- Create storage buckets
-INSERT INTO storage.buckets (id, name, public) VALUES 
-  ('profile-images', 'profile-images', true),
-  ('project-images', 'project-images', true);
+-- Create storage buckets (idempotent)
+INSERT INTO storage.buckets (id, name, public) VALUES
+  ('profile-images', 'profile-images', true)
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO storage.buckets (id, name, public) VALUES
+  ('project-images', 'project-images', true)
+ON CONFLICT (id) DO NOTHING;
 
 -- Storage policies
 CREATE POLICY "Users can upload their own profile images" ON storage.objects

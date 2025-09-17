@@ -8,6 +8,7 @@ import { Textarea } from './ui/textarea'
 import { Badge } from './ui/badge'
 import { useToast } from '../hooks/use-toast'
 import { DatabaseService } from '../lib/database'
+import { useAuth } from '../contexts/AuthContext'
 import { 
   Upload, 
   X, 
@@ -29,6 +30,7 @@ export const ProjectUpload = ({ onSuccess, onCancel }: ProjectUploadProps) => {
   const [files, setFiles] = useState<File[]>([])
   const [uploading, setUploading] = useState(false)
   const { toast } = useToast()
+  const { user } = useAuth()
 
   const serviceTypes = [
     'Nettoyage Résidentiel',
@@ -74,12 +76,24 @@ export const ProjectUpload = ({ onSuccess, onCancel }: ProjectUploadProps) => {
     setUploading(true)
     
     try {
-      await DatabaseService.createProject({
+      if (!user?.id) {
+        toast({ title: 'Erreur', description: "Vous devez être connecté.", variant: 'destructive' })
+        return
+      }
+
+      // 1) Cria o registro do projeto sem imagens
+      const project = await DatabaseService.createProject({
+        professional_id: user.id,
         title: title.trim(),
         description: description.trim(),
         service_type: serviceType,
-        images: files
+        before_images: [],
+        after_images: []
       })
+
+      // 2) Faz upload das imagens e atualiza o projeto
+      const urls = await DatabaseService.uploadProjectImages(user.id, project.id, files, 'after')
+      await DatabaseService.updateProject(project.id, { after_images: urls })
 
       toast({
         title: "Succès",
@@ -92,7 +106,7 @@ export const ProjectUpload = ({ onSuccess, onCancel }: ProjectUploadProps) => {
       setDescription('')
       setServiceType('')
       setFiles([])
-      
+
       onSuccess?.()
     } catch (error) {
       console.error('Error creating project:', error)

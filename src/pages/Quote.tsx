@@ -10,6 +10,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { Calculator, MapPin, Calendar } from "lucide-react";
+import { DatabaseService } from "@/lib/database";
 
 const Quote = () => {
   const { toast } = useToast();
@@ -61,12 +62,69 @@ const Quote = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Demande de Devis Soumise!",
-      description: "Merci pour votre demande. Notre équipe vous contactera dans les 24 heures avec un devis détaillé."
-    });
+    try {
+      const client_name = `${formData.firstName} ${formData.lastName}`.trim();
+      const client_email = formData.email;
+      const client_phone = formData.phone;
+      const service_type = formData.serviceType;
+      const address = `${formData.address}, ${formData.city} ${formData.zipCode}`.trim();
+
+      const details = [
+        `Type de propriété: ${formData.propertyType || '-'}`,
+        `Pièces: ${formData.rooms || '-'}`,
+        `Salles de bain: ${formData.bathrooms || '-'}`,
+        `Fréquence: ${formData.frequency || '-'}`,
+        `Préférences horaires: ${formData.timePreference || '-'}`,
+        `Services additionnels: ${formData.specialRequests.join(', ') || '-'}`,
+        `Budget: ${formData.budget || '-'}`,
+        formData.additionalNotes ? `Notes: ${formData.additionalNotes}` : ''
+      ].filter(Boolean).join('\n');
+
+      await DatabaseService.createQuote({
+        client_name,
+        client_email,
+        client_phone,
+        service_type,
+        description: details,
+        address,
+        preferred_date: formData.preferredDate || undefined
+      });
+
+      toast({
+        title: "Demande de Devis Soumise!",
+        description: "Merci pour votre demande. Notre équipe vous contactera dans les 24 heures.",
+      });
+
+      // Reset form
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        address: "",
+        city: "",
+        zipCode: "",
+        serviceType: "",
+        propertyType: "",
+        rooms: "",
+        bathrooms: "",
+        frequency: "",
+        preferredDate: "",
+        timePreference: "",
+        specialRequests: [],
+        additionalNotes: "",
+        budget: ""
+      });
+    } catch (error) {
+      console.error('Error creating quote:', error);
+      toast({
+        title: "Erreur",
+        description: "Impossible d'envoyer votre demande pour le moment.",
+        variant: "destructive"
+      });
+    }
   };
 
   return (
