@@ -72,6 +72,11 @@ export const Footer = () => {
                   Contact
                 </Link>
               </li>
+              <li>
+                <Link to="/login" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                  Entrer
+                </Link>
+              </li>
             </ul>
           </div>
 

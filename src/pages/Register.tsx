@@ -1,4 +1,8 @@
 import { useState } from "react";
+import { Link, Navigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { Navigation } from "@/components/ui/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -8,24 +12,45 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
-import { UserPlus, Upload } from "lucide-react";
+import { useAuth } from "../contexts/AuthContext";
+import { UserPlus, Upload, Loader2, Eye, EyeOff } from "lucide-react";
+
+// Validation schema
+const registerSchema = z.object({
+  firstName: z.string().min(2, "Le prénom doit contenir au moins 2 caractères"),
+  lastName: z.string().min(2, "Le nom doit contenir au moins 2 caractères"),
+  email: z.string().email("Email invalide"),
+  phone: z.string().min(10, "Numéro de téléphone invalide"),
+  password: z.string().min(6, "Le mot de passe doit contenir au moins 6 caractères"),
+  confirmPassword: z.string(),
+  experience: z.string().min(1, "Veuillez sélectionner votre expérience"),
+  serviceTypes: z.array(z.string()).min(1, "Veuillez sélectionner au moins un service"),
+  availability: z.string().min(1, "Veuillez sélectionner votre disponibilité"),
+  hasVehicle: z.string().min(1, "Veuillez indiquer si vous avez un véhicule"),
+  hasEquipment: z.string().min(1, "Veuillez indiquer si vous avez de l'équipement"),
+  references: z.string().optional(),
+  additionalInfo: z.string().optional()
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Les mots de passe ne correspondent pas",
+  path: ["confirmPassword"]
+});
+
+type RegisterFormData = z.infer<typeof registerSchema>;
 
 const Register = () => {
   const { toast } = useToast();
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    experience: "",
-    serviceTypes: [] as string[],
-    availability: "",
-    hasVehicle: "",
-    hasEquipment: "",
-    references: "",
-    additionalInfo: ""
-  });
+  const { user, signUp, loading } = useAuth();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Redirect if already logged in
+  if (user && !loading) {
+    return <Navigate to="/dashboard" replace />;
+  }
 
   const serviceTypes = [
     "Nettoyage Résidentiel",
@@ -36,21 +61,56 @@ const Register = () => {
     "Organisation et Rangement"
   ];
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+    setValue,
+    getValues
+  } = useForm<RegisterFormData>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      serviceTypes: []
+    }
+  });
+
+  const watchedServiceTypes = watch("serviceTypes") || [];
+
   const handleServiceTypeChange = (serviceType: string, checked: boolean) => {
-    setFormData(prev => ({
-      ...prev,
-      serviceTypes: checked 
-        ? [...prev.serviceTypes, serviceType]
-        : prev.serviceTypes.filter(type => type !== serviceType)
-    }));
+    const currentTypes = getValues("serviceTypes") || [];
+    const newTypes = checked
+      ? [...currentTypes, serviceType]
+      : currentTypes.filter(type => type !== serviceType);
+    setValue("serviceTypes", newTypes);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast({
-      title: "Inscription Soumise!",
-      description: "Merci de vous être inscrit. Nous examinerons votre candidature et vous contacterons bientôt."
-    });
+  const onSubmit = async (data: RegisterFormData) => {
+    try {
+      setError(null);
+      setIsSubmitting(true);
+
+      await signUp(data.email, data.password, {
+        full_name: `${data.firstName} ${data.lastName}`,
+        phone: data.phone,
+        specialties: data.serviceTypes,
+        bio: data.additionalInfo || undefined
+      });
+
+      toast({
+        title: "Inscription Réussie!",
+        description: "Votre compte a été créé. Vous recevrez une notification une fois votre profil approuvé."
+      });
+
+    } catch (err: any) {
+      setError(
+        err.message.includes('already registered')
+          ? 'Cette adresse email est déjà utilisée'
+          : 'Erreur lors de l\'inscription. Veuillez réessayer.'
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -78,7 +138,13 @@ const Register = () => {
               <CardTitle className="text-2xl text-center">Formulaire d'Inscription Professionnelle</CardTitle>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-8">
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+                {error && (
+                  <Alert variant="destructive">
+                    <AlertDescription>{error}</AlertDescription>
+                  </Alert>
+                )}
+
                 {/* Personal Information */}
                 <div className="space-y-6">
                   <h3 className="text-lg font-semibold border-b border-border pb-2">Informations Personnelles</h3>
@@ -87,39 +153,102 @@ const Register = () => {
                       <Label htmlFor="firstName">Prénom *</Label>
                       <Input
                         id="firstName"
-                        value={formData.firstName}
-                        onChange={(e) => setFormData(prev => ({ ...prev, firstName: e.target.value }))}
-                        required
+                        {...register("firstName")}
+                        className={errors.firstName ? 'border-red-500' : ''}
                       />
+                      {errors.firstName && (
+                        <p className="text-sm text-red-500">{errors.firstName.message}</p>
+                      )}
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="lastName">Nom de Famille *</Label>
                       <Input
                         id="lastName"
-                        value={formData.lastName}
-                        onChange={(e) => setFormData(prev => ({ ...prev, lastName: e.target.value }))}
-                        required
+                        {...register("lastName")}
+                        className={errors.lastName ? 'border-red-500' : ''}
                       />
+                      {errors.lastName && (
+                        <p className="text-sm text-red-500">{errors.lastName.message}</p>
+                      )}
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="email">Adresse Email *</Label>
                       <Input
                         id="email"
                         type="email"
-                        value={formData.email}
-                        onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                        required
+                        {...register("email")}
+                        className={errors.email ? 'border-red-500' : ''}
                       />
+                      {errors.email && (
+                        <p className="text-sm text-red-500">{errors.email.message}</p>
+                      )}
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="phone">Numéro de Téléphone *</Label>
                       <Input
                         id="phone"
                         type="tel"
-                        value={formData.phone}
-                        onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
-                        required
+                        placeholder="+55 62 99999-9999"
+                        {...register("phone")}
+                        className={errors.phone ? 'border-red-500' : ''}
                       />
+                      {errors.phone && (
+                        <p className="text-sm text-red-500">{errors.phone.message}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Password fields */}
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="password">Mot de passe *</Label>
+                      <div className="relative">
+                        <Input
+                          id="password"
+                          type={showPassword ? 'text' : 'password'}
+                          {...register("password")}
+                          className={errors.password ? 'border-red-500 pr-10' : 'pr-10'}
+                        />
+                        <button
+                          type="button"
+                          className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {showPassword ? (
+                            <EyeOff className="h-4 w-4 text-gray-400" />
+                          ) : (
+                            <Eye className="h-4 w-4 text-gray-400" />
+                          )}
+                        </button>
+                      </div>
+                      {errors.password && (
+                        <p className="text-sm text-red-500">{errors.password.message}</p>
+                      )}
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="confirmPassword">Confirmer le mot de passe *</Label>
+                      <div className="relative">
+                        <Input
+                          id="confirmPassword"
+                          type={showConfirmPassword ? 'text' : 'password'}
+                          {...register("confirmPassword")}
+                          className={errors.confirmPassword ? 'border-red-500 pr-10' : 'pr-10'}
+                        />
+                        <button
+                          type="button"
+                          className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        >
+                          {showConfirmPassword ? (
+                            <EyeOff className="h-4 w-4 text-gray-400" />
+                          ) : (
+                            <Eye className="h-4 w-4 text-gray-400" />
+                          )}
+                        </button>
+                      </div>
+                      {errors.confirmPassword && (
+                        <p className="text-sm text-red-500">{errors.confirmPassword.message}</p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -127,130 +256,134 @@ const Register = () => {
                 {/* Professional Information */}
                 <div className="space-y-6">
                   <h3 className="text-lg font-semibold border-b border-border pb-2">Informations Professionnelles</h3>
-                  
+
                   <div className="space-y-2">
-                    <Label htmlFor="experience">Years of Experience *</Label>
-                    <Select value={formData.experience} onValueChange={(value) => setFormData(prev => ({ ...prev, experience: value }))}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select your experience level" />
+                    <Label htmlFor="experience">Années d'Expérience *</Label>
+                    <Select onValueChange={(value) => setValue("experience", value)}>
+                      <SelectTrigger className={errors.experience ? 'border-red-500' : ''}>
+                        <SelectValue placeholder="Sélectionnez votre niveau d'expérience" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="0-1">0-1 years</SelectItem>
-                        <SelectItem value="2-3">2-3 years</SelectItem>
-                        <SelectItem value="4-5">4-5 years</SelectItem>
-                        <SelectItem value="6-10">6-10 years</SelectItem>
-                        <SelectItem value="10+">10+ years</SelectItem>
+                        <SelectItem value="0-1">0-1 ans</SelectItem>
+                        <SelectItem value="2-3">2-3 ans</SelectItem>
+                        <SelectItem value="4-5">4-5 ans</SelectItem>
+                        <SelectItem value="6-10">6-10 ans</SelectItem>
+                        <SelectItem value="10+">10+ ans</SelectItem>
                       </SelectContent>
                     </Select>
+                    {errors.experience && (
+                      <p className="text-sm text-red-500">{errors.experience.message}</p>
+                    )}
                   </div>
 
                   <div className="space-y-3">
-                    <Label>Service Types (Select all that apply) *</Label>
+                    <Label>Types de Services (Sélectionnez tous ceux qui s'appliquent) *</Label>
                     <div className="grid md:grid-cols-2 gap-3">
                       {serviceTypes.map((serviceType) => (
                         <div key={serviceType} className="flex items-center space-x-2">
                           <Checkbox
                             id={serviceType}
-                            checked={formData.serviceTypes.includes(serviceType)}
+                            checked={watchedServiceTypes.includes(serviceType)}
                             onCheckedChange={(checked) => handleServiceTypeChange(serviceType, checked as boolean)}
                           />
                           <Label htmlFor={serviceType}>{serviceType}</Label>
                         </div>
                       ))}
                     </div>
+                    {errors.serviceTypes && (
+                      <p className="text-sm text-red-500">{errors.serviceTypes.message}</p>
+                    )}
                   </div>
 
                   <div className="space-y-3">
-                    <Label>Availability *</Label>
-                    <RadioGroup 
-                      value={formData.availability} 
-                      onValueChange={(value) => setFormData(prev => ({ ...prev, availability: value }))}
-                    >
+                    <Label>Disponibilité *</Label>
+                    <RadioGroup onValueChange={(value) => setValue("availability", value)}>
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="weekdays" id="weekdays" />
-                        <Label htmlFor="weekdays">Weekdays only</Label>
+                        <Label htmlFor="weekdays">Jours de semaine seulement</Label>
                       </div>
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="weekends" id="weekends" />
-                        <Label htmlFor="weekends">Weekends only</Label>
+                        <Label htmlFor="weekends">Week-ends seulement</Label>
                       </div>
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="flexible" id="flexible" />
-                        <Label htmlFor="flexible">Flexible (all days)</Label>
+                        <Label htmlFor="flexible">Flexible (tous les jours)</Label>
                       </div>
                     </RadioGroup>
+                    {errors.availability && (
+                      <p className="text-sm text-red-500">{errors.availability.message}</p>
+                    )}
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-3">
-                      <Label>Do you have your own vehicle? *</Label>
-                      <RadioGroup 
-                        value={formData.hasVehicle} 
-                        onValueChange={(value) => setFormData(prev => ({ ...prev, hasVehicle: value }))}
-                      >
+                      <Label>Avez-vous votre propre véhicule? *</Label>
+                      <RadioGroup onValueChange={(value) => setValue("hasVehicle", value)}>
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="yes" id="vehicle-yes" />
-                          <Label htmlFor="vehicle-yes">Yes</Label>
+                          <Label htmlFor="vehicle-yes">Oui</Label>
                         </div>
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="no" id="vehicle-no" />
-                          <Label htmlFor="vehicle-no">No</Label>
+                          <Label htmlFor="vehicle-no">Non</Label>
                         </div>
                       </RadioGroup>
+                      {errors.hasVehicle && (
+                        <p className="text-sm text-red-500">{errors.hasVehicle.message}</p>
+                      )}
                     </div>
 
                     <div className="space-y-3">
-                      <Label>Do you have cleaning equipment? *</Label>
-                      <RadioGroup 
-                        value={formData.hasEquipment} 
-                        onValueChange={(value) => setFormData(prev => ({ ...prev, hasEquipment: value }))}
-                      >
+                      <Label>Avez-vous de l'équipement de nettoyage? *</Label>
+                      <RadioGroup onValueChange={(value) => setValue("hasEquipment", value)}>
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="yes" id="equipment-yes" />
-                          <Label htmlFor="equipment-yes">Yes</Label>
+                          <Label htmlFor="equipment-yes">Oui</Label>
                         </div>
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="no" id="equipment-no" />
-                          <Label htmlFor="equipment-no">No</Label>
+                          <Label htmlFor="equipment-no">Non</Label>
                         </div>
                       </RadioGroup>
+                      {errors.hasEquipment && (
+                        <p className="text-sm text-red-500">{errors.hasEquipment.message}</p>
+                      )}
                     </div>
                   </div>
                 </div>
 
                 {/* Additional Information */}
                 <div className="space-y-6">
-                  <h3 className="text-lg font-semibold border-b border-border pb-2">Additional Information</h3>
-                  
+                  <h3 className="text-lg font-semibold border-b border-border pb-2">Informations Supplémentaires</h3>
+
                   <div className="space-y-2">
-                    <Label htmlFor="references">References (Previous employers or clients)</Label>
+                    <Label htmlFor="references">Références (Employeurs ou clients précédents)</Label>
                     <Textarea
                       id="references"
-                      placeholder="Please provide contact information for 2-3 references..."
-                      value={formData.references}
-                      onChange={(e) => setFormData(prev => ({ ...prev, references: e.target.value }))}
+                      placeholder="Veuillez fournir les informations de contact de 2-3 références..."
+                      {...register("references")}
                       rows={4}
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="additionalInfo">Additional Information</Label>
+                    <Label htmlFor="additionalInfo">Informations Supplémentaires</Label>
                     <Textarea
                       id="additionalInfo"
-                      placeholder="Tell us anything else about your experience, specializations, or availability..."
-                      value={formData.additionalInfo}
-                      onChange={(e) => setFormData(prev => ({ ...prev, additionalInfo: e.target.value }))}
+                      placeholder="Parlez-nous de votre expérience, spécialisations ou disponibilité..."
+                      {...register("additionalInfo")}
                       rows={4}
                     />
                   </div>
 
                   <div className="space-y-3">
-                    <Label>Portfolio Photos (Optional)</Label>
+                    <Label>Photos de Portfolio (Optionnel)</Label>
                     <div className="border-2 border-dashed border-border rounded-lg p-8 text-center">
                       <Upload className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-                      <p className="text-muted-foreground mb-2">Upload photos of your previous work</p>
+                      <p className="text-muted-foreground mb-2">Téléchargez des photos de vos travaux précédents</p>
                       <Button variant="outline" type="button">
-                        Choose Files
+                        Choisir des Fichiers
                       </Button>
                     </div>
                   </div>
@@ -258,9 +391,34 @@ const Register = () => {
 
                 {/* Submit Button */}
                 <div className="flex justify-center pt-6">
-                  <Button type="submit" size="lg" className="px-12">
-                    Soumettre l'Inscription
+                  <Button
+                    type="submit"
+                    size="lg"
+                    className="px-12"
+                    disabled={isSubmitting || loading}
+                  >
+                    {isSubmitting || loading ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Inscription en cours...
+                      </>
+                    ) : (
+                      'Soumettre l\'Inscription'
+                    )}
                   </Button>
+                </div>
+
+                {/* Login link */}
+                <div className="text-center pt-4">
+                  <p className="text-sm text-gray-600">
+                    Vous avez déjà un compte ?{' '}
+                    <Link
+                      to="/login"
+                      className="font-medium text-blue-600 hover:text-blue-500"
+                    >
+                      Se connecter
+                    </Link>
+                  </p>
                 </div>
               </form>
             </CardContent>
