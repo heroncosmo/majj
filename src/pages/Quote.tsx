@@ -31,7 +31,9 @@ const Quote = () => {
     timePreference: "",
     specialRequests: [] as string[],
     additionalNotes: "",
-    budget: ""
+    budget: "",
+    // honeypot anti-bot
+    website: ""
   });
 
   const serviceTypes = [
@@ -64,6 +66,18 @@ const Quote = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Anti-abuso: honeypot + rate limit simples por client
+    if (formData.website) {
+      return; // bots geralmente preenchem campos escondidos
+    }
+    const now = Date.now();
+    const last = Number(localStorage.getItem('last_quote_submit') || '0');
+    if (now - last < 10_000) {
+      toast({ title: 'Veuillez patienter', description: 'Vous avez récemment envoyé une demande. Réessayez dans quelques secondes.' })
+      return;
+    }
+
     try {
       const client_name = `${formData.firstName} ${formData.lastName}`.trim();
       const client_email = formData.email;
@@ -92,6 +106,8 @@ const Quote = () => {
         preferred_date: formData.preferredDate || undefined
       });
 
+      localStorage.setItem('last_quote_submit', String(now));
+
       toast({
         title: "Demande de Devis Soumise!",
         description: "Merci pour votre demande. Notre équipe vous contactera dans les 24 heures.",
@@ -115,7 +131,8 @@ const Quote = () => {
         timePreference: "",
         specialRequests: [],
         additionalNotes: "",
-        budget: ""
+        budget: "",
+        website: ""
       });
     } catch (error) {
       console.error('Error creating quote:', error);
@@ -410,6 +427,16 @@ const Quote = () => {
                     />
                   </div>
                 </div>
+
+                {/* Honeypot invisible */}
+                <input
+                  type="text"
+                  name="website"
+                  className="hidden"
+                  autoComplete="off"
+                  value={formData.website}
+                  onChange={(e) => setFormData(prev => ({ ...prev, website: e.target.value }))}
+                />
 
                 {/* Submit Button */}
                 <div className="flex justify-center pt-6">

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -16,6 +16,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "../contexts/AuthContext";
 import { UserPlus, Upload, Loader2, Eye, EyeOff } from "lucide-react";
+import { supabase } from "../lib/supabase";
 
 // Validation schema
 const registerSchema = z.object({
@@ -40,6 +41,7 @@ const registerSchema = z.object({
 type RegisterFormData = z.infer<typeof registerSchema>;
 
 const Register = () => {
+  const navigate = useNavigate();
   const { toast } = useToast();
   const { user, signUp, loading } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
@@ -47,10 +49,7 @@ const Register = () => {
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Redirect if already logged in
-  if (user && !loading) {
-    return <Navigate to="/dashboard" replace />;
-  }
+  // (Hooks devem ser inicializados antes de returns condicionais)
 
   const serviceTypes = [
     "Nettoyage Résidentiel",
@@ -82,6 +81,11 @@ const Register = () => {
     const newTypes = checked
       ? [...currentTypes, serviceType]
       : currentTypes.filter(type => type !== serviceType);
+
+  // Redirect if already logged in (après initialiser hooks)
+  if (user && !loading) {
+    return <Navigate to="/dashboard" replace />
+  }
     setValue("serviceTypes", newTypes);
   };
 
@@ -90,6 +94,7 @@ const Register = () => {
       setError(null);
       setIsSubmitting(true);
 
+      // Registrar via cliente padrão (signUp).
       await signUp(data.email, data.password, {
         full_name: `${data.firstName} ${data.lastName}`,
         phone: data.phone,
@@ -102,9 +107,14 @@ const Register = () => {
         description: "Votre compte a été créé. Vous recevrez une notification une fois votre profil approuvé."
       });
 
-    } catch (err: any) {
+      // Redireciona para a página de login para evitar que a navegação do teste
+      // cancele a requisição de signup em andamento
+      navigate('/login', { replace: true });
+
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err)
       setError(
-        err.message.includes('already registered')
+        message.includes('already registered')
           ? 'Cette adresse email est déjà utilisée'
           : 'Erreur lors de l\'inscription. Veuillez réessayer.'
       );
@@ -116,7 +126,7 @@ const Register = () => {
   return (
     <div className="min-h-screen bg-accent/20">
       <Navigation />
-      
+
       <main className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
           {/* Header */}

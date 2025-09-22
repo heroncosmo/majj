@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, Navigate, useLocation } from 'react-router-dom'
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -21,15 +21,13 @@ type LoginFormData = z.infer<typeof loginSchema>
 export default function Login() {
   const { user, signIn, loading } = useAuth()
   const location = useLocation()
+  const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const from = location.state?.from?.pathname || '/dashboard'
-
-  // Redirect if already logged in
-  if (user && !loading) {
-    return <Navigate to={from} replace />
-  }
+  const fromPath = location.state?.from?.pathname || '/dashboard'
+  const fromSearch = location.state?.from?.search || ''
+  const from = `${fromPath}${fromSearch}`
 
   const {
     register,
@@ -39,14 +37,21 @@ export default function Login() {
     resolver: zodResolver(loginSchema)
   })
 
+  // Redirect if already logged in (aps inicializar hooks)
+  if (user && !loading) {
+    return <Navigate to={from} replace />
+  }
+
   const onSubmit = async (data: LoginFormData) => {
     try {
       setError(null)
       await signIn(data.email, data.password)
-      // Navigation will be handled by the auth context
-    } catch (err: any) {
+      // Navigate immediately to avoid race with async hydration
+      navigate(from, { replace: true })
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err)
       setError(
-        err.message === 'Invalid login credentials'
+        message === 'Invalid login credentials'
           ? 'Email ou mot de passe incorrect'
           : 'Erreur de connexion. Veuillez réessayer.'
       )

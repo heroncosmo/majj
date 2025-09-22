@@ -63,24 +63,24 @@ ALTER TABLE notifications ENABLE ROW LEVEL SECURITY;
 
 -- RLS Policies for profiles
 CREATE POLICY "Users can view their own profile" ON profiles
-  FOR SELECT USING (auth.uid() = id);
+  FOR SELECT USING ((select auth.uid()) = id);
 
 CREATE POLICY "Users can update their own profile" ON profiles
-  FOR UPDATE USING (auth.uid() = id);
+  FOR UPDATE USING ((select auth.uid()) = id);
 
 CREATE POLICY "Admins can view all profiles" ON profiles
   FOR SELECT USING (
     EXISTS (
-      SELECT 1 FROM profiles 
-      WHERE id = auth.uid() AND role = 'admin'
+      SELECT 1 FROM profiles
+      WHERE id = (select auth.uid()) AND role = 'admin'
     )
   );
 
 CREATE POLICY "Admins can update all profiles" ON profiles
   FOR UPDATE USING (
     EXISTS (
-      SELECT 1 FROM profiles 
-      WHERE id = auth.uid() AND role = 'admin'
+      SELECT 1 FROM profiles
+      WHERE id = (select auth.uid()) AND role = 'admin'
     )
   );
 
@@ -88,60 +88,60 @@ CREATE POLICY "Admins can update all profiles" ON profiles
 CREATE POLICY "Admins can view all quotes" ON quotes
   FOR SELECT USING (
     EXISTS (
-      SELECT 1 FROM profiles 
-      WHERE id = auth.uid() AND role = 'admin'
+      SELECT 1 FROM profiles
+      WHERE id = (select auth.uid()) AND role = 'admin'
     )
   );
 
 CREATE POLICY "Professionals can view assigned quotes" ON quotes
-  FOR SELECT USING (assigned_professional_id = auth.uid());
+  FOR SELECT USING (assigned_professional_id = (select auth.uid()));
 
 CREATE POLICY "Admins can insert quotes" ON quotes
   FOR INSERT WITH CHECK (
     EXISTS (
-      SELECT 1 FROM profiles 
-      WHERE id = auth.uid() AND role = 'admin'
+      SELECT 1 FROM profiles
+      WHERE id = (select auth.uid()) AND role = 'admin'
     )
   );
 
 CREATE POLICY "Admins can update quotes" ON quotes
   FOR UPDATE USING (
     EXISTS (
-      SELECT 1 FROM profiles 
-      WHERE id = auth.uid() AND role = 'admin'
+      SELECT 1 FROM profiles
+      WHERE id = (select auth.uid()) AND role = 'admin'
     )
   );
 
 -- RLS Policies for projects
 CREATE POLICY "Professionals can view their own projects" ON projects
-  FOR SELECT USING (professional_id = auth.uid());
+  FOR SELECT USING (professional_id = (select auth.uid()));
 
 CREATE POLICY "Professionals can insert their own projects" ON projects
-  FOR INSERT WITH CHECK (professional_id = auth.uid());
+  FOR INSERT WITH CHECK (professional_id = (select auth.uid()));
 
 CREATE POLICY "Professionals can update their own projects" ON projects
-  FOR UPDATE USING (professional_id = auth.uid());
+  FOR UPDATE USING (professional_id = (select auth.uid()));
 
 CREATE POLICY "Admins can view all projects" ON projects
   FOR SELECT USING (
     EXISTS (
-      SELECT 1 FROM profiles 
-      WHERE id = auth.uid() AND role = 'admin'
+      SELECT 1 FROM profiles
+      WHERE id = (select auth.uid()) AND role = 'admin'
     )
   );
 
 -- RLS Policies for notifications
 CREATE POLICY "Users can view their own notifications" ON notifications
-  FOR SELECT USING (user_id = auth.uid());
+  FOR SELECT USING (user_id = (select auth.uid()));
 
 CREATE POLICY "Users can update their own notifications" ON notifications
-  FOR UPDATE USING (user_id = auth.uid());
+  FOR UPDATE USING (user_id = (select auth.uid()));
 
 CREATE POLICY "Admins can insert notifications" ON notifications
   FOR INSERT WITH CHECK (
     EXISTS (
-      SELECT 1 FROM profiles 
-      WHERE id = auth.uid() AND role = 'admin'
+      SELECT 1 FROM profiles
+      WHERE id = (select auth.uid()) AND role = 'admin'
     )
   );
 
@@ -175,13 +175,17 @@ CREATE POLICY "Users can view project images" ON storage.objects
 
 -- Function to handle profile creation
 CREATE OR REPLACE FUNCTION handle_new_user()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
 BEGIN
   INSERT INTO profiles (id, full_name, email, role)
   VALUES (NEW.id, NEW.raw_user_meta_data->>'full_name', NEW.email, 'professional');
   RETURN NEW;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$;
 
 -- Trigger for new user registration
 CREATE TRIGGER on_auth_user_created
@@ -190,12 +194,15 @@ CREATE TRIGGER on_auth_user_created
 
 -- Function to update updated_at timestamp
 CREATE OR REPLACE FUNCTION update_updated_at_column()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER
+LANGUAGE plpgsql
+SET search_path = public
+AS $$
 BEGIN
   NEW.updated_at = NOW();
   RETURN NEW;
 END;
-$$ LANGUAGE plpgsql;
+$$;
 
 -- Trigger for profiles updated_at
 CREATE TRIGGER update_profiles_updated_at

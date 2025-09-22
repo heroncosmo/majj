@@ -30,25 +30,6 @@ export class AuthService {
 
     if (error) throw error
 
-    // Create profile manually if trigger doesn't work
-    if (data.user) {
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .insert({
-          id: data.user.id,
-          full_name: userData.full_name,
-          email: email,
-          phone: userData.phone,
-          specialties: userData.specialties,
-          bio: userData.bio,
-          role: 'professional',
-          status: 'pending'
-        })
-
-      if (profileError) {
-        console.error('Error creating profile:', profileError)
-      }
-    }
 
     return data
   }
@@ -72,20 +53,30 @@ export class AuthService {
 
   // Get current user with profile
   static async getCurrentUser(): Promise<AuthUser | null> {
-    const { data: { user } } = await supabase.auth.getUser()
-    
-    if (!user) return null
+    // Use getSession to avoid network call when there is no session
+    const { data: { session } } = await supabase.auth.getSession()
+    const sessionUser = session?.user
+    if (!sessionUser) return null
 
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', user.id)
-      .single()
+    // Try to fetch profile; if it fails, still return basic user info
+    try {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', sessionUser.id)
+        .single()
 
-    return {
-      id: user.id,
-      email: user.email!,
-      profile: profile || undefined
+      return {
+        id: sessionUser.id,
+        email: sessionUser.email!,
+        profile: profile || undefined
+      }
+    } catch (e) {
+      console.error('getCurrentUser: profile fetch error', e)
+      return {
+        id: sessionUser.id,
+        email: sessionUser.email!,
+      }
     }
   }
 

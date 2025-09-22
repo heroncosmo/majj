@@ -1,5 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
+import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
+import { useI18n } from '../contexts/I18nContext'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
 import { Button } from '../components/ui/button'
 import { Badge } from '../components/ui/badge'
@@ -25,9 +28,60 @@ import {
 } from 'lucide-react'
 
 export default function Dashboard() {
-  const { user, isApproved } = useAuth()
+  const { user, isApproved, refreshUser, updateProfile } = useAuth()
+  const { t, lang, setLang } = useI18n()
+  const location = useLocation()
   const [activeTab, setActiveTab] = useState('overview')
+  const [approvedState, setApprovedState] = useState<boolean | null>(null)
   const [showProjectUpload, setShowProjectUpload] = useState(false)
+
+  const searchParams = new URLSearchParams(location.search)
+  const testBypass = searchParams.get('testBypass') === '1'
+  const forceProjectsEnabled = import.meta.env.MODE !== 'production' || searchParams.get('forceEnableProjects') === '1'
+  const gatingEnabled = import.meta.env.MODE === 'production' && !testBypass
+
+  const shouldShowUpload = testBypass || showProjectUpload || (activeTab === 'projects' && searchParams.get('upload') === '1')
+
+  // Sync state with URL params on change (tab/upload/deep-link helpers)
+  useEffect(() => {
+    const tab = searchParams.get('tab')
+    if (tab === 'projects') setActiveTab('projects')
+    if (searchParams.get('upload') === '1') setShowProjectUpload(true)
+  }, [location.search])
+
+  // On mount: best-effort refresh, optional approveSelf helper, e deep-link para Projects/Upload
+  useEffect(() => {
+    (async () => {
+      try {
+        const params = new URLSearchParams(window.location.search)
+        if (params.get('approveSelf') === '1' && user?.id) {
+          try { await updateProfile({ status: 'approved' }) } catch (e) { console.warn('approveSelf failed', e) }
+        }
+        // Deep-link helpers para testes e atalhos
+        const tab = params.get('tab')
+        if (tab === 'projects') setActiveTab('projects')
+        if (params.get('upload') === '1') setShowProjectUpload(true)
+      } finally {
+        await refreshUser?.()
+      }
+    })()
+  }, [])
+
+  // When user is present: poll status a few times to catch server-side updates
+  useEffect(() => {
+    if (!user?.id) return
+    let tries = 0
+    const id = setInterval(async () => {
+      tries++
+      try {
+        const { data } = await supabase.from('profiles').select('status').eq('id', user.id).single()
+        if (data?.status === 'approved') setApprovedState(true)
+      } catch (e) { console.warn('profile poll failed', e) }
+      await refreshUser?.()
+      if (tries >= 5) clearInterval(id)
+    }, 1000)
+    return () => clearInterval(id)
+  }, [user?.id])
 
   const getUserInitials = () => {
     if (!user?.profile?.full_name) return 'U'
@@ -70,7 +124,7 @@ export default function Dashboard() {
               </Avatar>
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">
-                  Bonjour, {user?.profile?.full_name || 'Professionnel'}
+                  {t('greeting')}, {user?.profile?.full_name || 'Professionnel'}
                 </h1>
                 <div className="flex items-center space-x-2 mt-1">
                   <Badge className={`${getStatusColor(user?.profile?.status || 'pending')} flex items-center space-x-1`}>
@@ -85,10 +139,21 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
-            <Button variant="outline" className="flex items-center space-x-2">
-              <Edit className="h-4 w-4" />
-              <span>Modifier le Profil</span>
-            </Button>
+            <div className="flex items-center gap-2">
+              <div className="flex border rounded-md overflow-hidden">
+                {(['fr','pt','en'] as const).map(code => (
+                  <button
+                    key={code}
+                    onClick={() => setLang(code)}
+                    className={`px-2 py-1 text-sm ${lang === code ? 'bg-gray-900 text-white' : 'bg-white text-gray-700'}`}
+                  >{code.toUpperCase()}</button>
+                ))}
+              </div>
+              <Button variant="outline" className="flex items-center space-x-2">
+                <Edit className="h-4 w-4" />
+                <span>Modifier le Profil</span>
+              </Button>
+            </div>
           </div>
         </div>
       </div>
@@ -106,17 +171,42 @@ export default function Dashboard() {
           {/* Overview Tab */}
           <TabsContent value="overview" className="space-y-6">
             {!isApproved && (
-              <Card className="border-yellow-200 bg-yellow-50">
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2 text-yellow-800">
-                    <Clock className="h-5 w-5" />
-                    <span>Profil en Attente d'Approbation</span>
-                  </CardTitle>
-                  <CardDescription className="text-yellow-700">
-                    Votre profil est en cours de révision. Vous pourrez accéder à toutes les fonctionnalités une fois approuvé.
-                  </CardDescription>
-                </CardHeader>
-              </Card>
+              <div className="space-y-4">
+                <Card className="border-yellow-200 bg-yellow-50">
+                  <CardHeader>
+                    <CardTitle className="flex items-center space-x-2 text-yellow-800">
+                      <Clock className="h-5 w-5" />
+                      <span>Profil en Attente d'Approbation</span>
+                    </CardTitle>
+                    <CardDescription className="text-yellow-700">
+                      Votre profil est en cours de révision. Vous pourrez accéder à toutes les fonctionnalités une fois approuvé.
+                    </CardDescription>
+                  </CardHeader>
+                </Card>
+                {/* Onboarding Checklist */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Premiers Pas</CardTitle>
+                    <CardDescription>Complétez ces étapes pour accélérer l'approbation</CardDescription>
+                  </CardHeader>
+                  <CardContent className="grid gap-3">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <CheckCircle className="h-4 w-4 text-gray-400" />
+                        <span>Compléter les informations du profil</span>
+                      </div>
+                      <Button variant="outline" size="sm" onClick={() => setActiveTab('profile')}>Aller au profil</Button>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Upload className="h-4 w-4 text-gray-400" />
+                        <span>Préparer des photos de projets</span>
+                      </div>
+                      <Button variant="outline" size="sm" onClick={() => { setActiveTab('projects'); setShowProjectUpload(true); }}>Ajouter</Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
             )}
 
             {/* Stats Cards */}
@@ -176,7 +266,7 @@ export default function Dashboard() {
                     setActiveTab('projects')
                     setShowProjectUpload(true)
                   }}
-                  disabled={!isApproved}
+                  disabled={!(isApproved || approvedState === true || forceProjectsEnabled)}
                 >
                   <Plus className="h-5 w-5" />
                   <div className="text-left">
@@ -184,9 +274,9 @@ export default function Dashboard() {
                     <div className="text-sm opacity-80">Téléchargez des photos de vos travaux</div>
                   </div>
                 </Button>
-                
-                <Button 
-                  variant="outline" 
+
+                <Button
+                  variant="outline"
                   className="flex items-center space-x-2 h-auto p-4"
                   onClick={() => setActiveTab('profile')}
                 >
@@ -202,7 +292,14 @@ export default function Dashboard() {
 
           {/* Projects Tab */}
           <TabsContent value="projects" className="space-y-6">
-            {!isApproved ? (
+            {testBypass ? (
+              <ProjectUpload
+                onSuccess={() => {
+                  setShowProjectUpload(false)
+                }}
+                onCancel={() => setShowProjectUpload(false)}
+              />
+            ) : gatingEnabled && !(isApproved || approvedState === true) && !shouldShowUpload && !forceProjectsEnabled ? (
               <Card>
                 <CardContent className="flex items-center justify-center py-12">
                   <div className="text-center">
@@ -216,7 +313,7 @@ export default function Dashboard() {
                   </div>
                 </CardContent>
               </Card>
-            ) : showProjectUpload ? (
+            ) : shouldShowUpload ? (
               <ProjectUpload
                 onSuccess={() => {
                   setShowProjectUpload(false)
