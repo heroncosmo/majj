@@ -72,7 +72,7 @@ Este documento apresenta o estado atual do sistema web da Majik Services (site +
 1) Pré‑requisitos: Node 18+.
 2) Variáveis de ambiente (.env):
    - NEXT_PUBLIC_SUPABASE_URL=https://wxdqcbtpxivikhsvbjkp.supabase.co
-   - NEXT_PUBLIC_SUPABASE_ANON_KEY=... (chave anônima do projeto)
+   - NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind4ZHFjYnRweGl2aWtoc3ZiamtwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgxMzk2MjAsImV4cCI6MjA3MzcxNTYyMH0.dXWh6zPSbArJREX8tRjUunXD5I1GqnVb6o2Gv_0XvBM
 3) Instalar dependências: `npm ci`
 4) Rodar em desenvolvimento: `npm run dev` (Vite)
 5) Build: `npm run build`
@@ -97,7 +97,10 @@ Observação: também é possível usar o CLI da Vercel, mas é recomendável ma
 Caso deseje, posso realizar essa configuração e o push diretamente — preciso apenas do link do repositório GitHub (ou autorização para criar um) e acesso (token/credenciais) se o repositório for privado.
 
 ## Acessos e credenciais
-- Usuário admin (e‑mail) já configurado no banco. Por segurança, a senha deve ser definida ou trocada diretamente pelo fluxo de “esqueci minha senha” do Supabase Auth (ou redefinida via painel Supabase). Não armazenamos senhas neste documento.
+- Admin (para o painel `/admin`):
+  - E‑mail: brasilmajik@gmail.com
+  - Senha provisória: Ibira2019!  (recomenda-se alterar no primeiro acesso)
+- Observação: Senhas podem (e devem) ser redefinidas via “Esqueci minha senha” do Supabase Auth.
 
 ## Próximos passos sugeridos (opcionais)
 - Email transacional para confirmação de orçamento/contato.
