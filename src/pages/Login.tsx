@@ -46,8 +46,13 @@ export default function Login() {
     try {
       setError(null)
       await signIn(data.email, data.password)
-      // Navigate immediately to avoid race with async hydration
-      navigate(from, { replace: true })
+      // Admin dedicado vai direto para o painel administrativo
+      if (data.email === 'brasilmajik@gmail.com') {
+        navigate('/admin', { replace: true })
+      } else {
+        // Navigate imediatamente para evitar corrida com hidratação assíncrona
+        navigate(from, { replace: true })
+      }
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err)
       setError(

@@ -76,17 +76,19 @@ const Register = () => {
 
   const watchedServiceTypes = watch("serviceTypes") || [];
 
+
+  // Redirect if already logged in (après initialiser hooks)
+  if (user && !loading) {
+    return <Navigate to="/dashboard" replace />
+  }
+
   const handleServiceTypeChange = (serviceType: string, checked: boolean) => {
     const currentTypes = getValues("serviceTypes") || [];
     const newTypes = checked
       ? [...currentTypes, serviceType]
       : currentTypes.filter(type => type !== serviceType);
 
-  // Redirect if already logged in (après initialiser hooks)
-  if (user && !loading) {
-    return <Navigate to="/dashboard" replace />
-  }
-    setValue("serviceTypes", newTypes);
+    setValue("serviceTypes", newTypes, { shouldValidate: true, shouldDirty: true });
   };
 
   const onSubmit = async (data: RegisterFormData) => {

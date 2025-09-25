@@ -74,7 +74,7 @@ export default function Dashboard() {
     const id = setInterval(async () => {
       tries++
       try {
-        const { data } = await supabase.from('profiles').select('status').eq('id', user.id).single()
+        const { data } = await supabase.rpc('get_my_profile').single()
         if (data?.status === 'approved') setApprovedState(true)
       } catch (e) { console.warn('profile poll failed', e) }
       await refreshUser?.()
@@ -170,7 +170,7 @@ export default function Dashboard() {
 
           {/* Overview Tab */}
           <TabsContent value="overview" className="space-y-6">
-            {!isApproved && (
+            {(user?.profile?.status === 'pending' && approvedState !== true) && (
               <div className="space-y-4">
                 <Card className="border-yellow-200 bg-yellow-50">
                   <CardHeader>

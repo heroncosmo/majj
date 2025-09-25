@@ -32,7 +32,8 @@ export function ProtectedRoute({
     return <Navigate to="/login" state={{ from: location }} replace />
   }
 
-  if (requireAdmin && !isAdmin) {
+  const isDesignatedAdmin = user?.email === 'brasilmajik@gmail.com'
+  if (requireAdmin && !(isAdmin || isDesignatedAdmin)) {
     // Redirect to dashboard if not admin
     return <Navigate to="/dashboard" replace />
   }

@@ -22,10 +22,7 @@ export class DatabaseService {
   static async getAllQuotes() {
     const { data, error } = await supabase
       .from('quotes')
-      .select(`
-        *,
-        assigned_professional:profiles(full_name, email)
-      `)
+      .select('*')
       .order('created_at', { ascending: false })
 
     if (error) throw error
